@@ -1,0 +1,124 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/head.html"></head>
+<body>
+<div class="container">
+    <div th:if="${id != '-1'}">
+        <header th:include="include/headerConnected.html"></header>
+    </div>
+    <div th:unless="${id != '-1'}">
+        <header th:include="include/header.html"></header>
+    </div>
+    <div class="row">
+        <form method="post" action="#" th:action="@{/registerCheck}" th:object="${user}" class="col-lg-9 form-horizontal well">
+            <legend class="h4 border-bottom">Formulaire d'inscription</legend>
+            <br>
+            <fieldset >
+                <legend class="push border-bottom">Identité</legend>
+                <div class="row form-group">
+                    <label for="name" class="offset-lg-1 offset-sm-1 col-2 control-label">Nom:</label>
+                    <div class="col-7">
+                        <input id="name" type="text" th:field="*{name}" class="form-control">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="firstname" class="offset-lg-1 offset-sm-1 col-2 control-label">Prénom:</label>
+                    <div class="col-7">
+                        <input id="firstname"  type="text" th:field="*{firstname}"class="form-control">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="sex" class="offset-lg-1 offset-sm-1 col-2 control-label">Sexe:</label>
+                    <div class ="radio col-7">
+                        <label id="sex" for="man" class="radio">
+                            <input type="radio" th:field="*{sex}" value="true" id="man">
+                            Homme &emsp; &emsp;
+                        </label>
+                        <label id="sex" for="woman" class="radio">
+                            <input type="radio" th:field="*{sex}" value="false" id="woman">
+                            Femme
+                        </label>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="birth" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Date de naissance :</label>
+                    <div class="col-xs-7 col-sm-7 col-lg-7">
+                        <input id="birth" name="birth" type="Date" class="form-control">
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend class="push border-bottom">Coordonnée</legend>
+                <div class="row form-group">
+                    <label for="address" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Adresse postale: </label>
+                    <div class="col-xs-7 col-sm-7 col-lg-7">
+                        <input id="address" th:field="*{address}" type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="ZIP" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">code postale: </label>
+                    <div class="col-xs-7 col-sm-7 col-lg-7">
+                        <input id="ZIP" th:field="*{zip}" type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="mail" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Adresse e-mail: </label>
+                    <div class="col-xs-7 col-sm-7 col-lg-7">
+                        <input id="mail" th:field="*{mail}" type="email" class="form-control">
+                    </div>
+                </div>
+                <div class="row form-group">
+
+                    <label for="mail2" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Vérification Adresse e-mail:</label>
+                    <div class="col-xs-7 col-sm-7 col-lg-7">
+                        <input id="mail2" type="email" class="form-control">
+                    </div>
+                </div>
+                <div class="row form-group">
+
+                    <label for="phone" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Téléphone: </label>
+                    <div class="col-xs-7 col-sm-7 col-lg-7">
+                        <input id="phone" th:field="*{phone}" type="tel" class="form-control">
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend class="push border-bottom">Compte</legend>
+                <div class="row form-group">
+                    <label for="pseudo" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Pseudo: </label>
+                    <div class="col-xs-7 col-sm-7 col-lg-7">
+                        <input id="pseudo" th:field="*{pseudo}" type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="password" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Mot de passe: </label>
+                    <div class="col-xs-7 col-sm-7 col-lg-7">
+                        <input id="password" th:field="*{password}" type="password" class="form-control">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="password2" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Vérification Mot de passe: </label>
+                    <div class="col-xs-7 col-sm-7 col-lg-7">
+                        <input id="password2"  type="password" class="form-control">
+                    </div>
+                </div>
+            </fieldset>
+            <div class="row form-group">
+                <label for="level" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Niveau d'escalade:</label>
+                <div class="col-xs-7 col-sm-7 col-lg-7">
+                    <select id="level" name="level" class="form-control">
+                        <option>Débutant (4 à 5C)</option>
+                        <option>Intermédiaire (6A à 6C+)</option>
+                        <option>Avancé (7A à 7B)</option>
+                        <option>Expert (7B+ à 8A+)</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn btn-primary offset-9" type="submit">Envoyer</button>
+        </form>
+        <nav th:include="include/highlight-site.html"  class="border-cadre col-lg-3"></nav>
+    </div>
+    <footer class="border-cadre row" th:include="include/footer.html"></footer>
+</div>
+
+</body>
+</html>
