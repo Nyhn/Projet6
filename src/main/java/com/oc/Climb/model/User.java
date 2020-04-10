@@ -1,4 +1,6 @@
 package com.oc.Climb.model;
+import com.oc.Climb.enums.Role;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -17,7 +19,22 @@ public class User{
     private int zip;
     private String mail;
     private int phone;
+    private Role role;
 
+    @Enumerated(EnumType.STRING)
+    @Column(length = 13)
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        if(role.equals(Role.ADMINISTRATOR))
+            this.role = Role.ADMINISTRATOR;
+        if(role.equals(Role.MEMBER))
+            this.role = Role.MEMBER;
+        if(role.equals(Role.USER))
+            this.role = Role.USER;
+    }
 
     private Set<Topos> toposCollection;
 
@@ -43,6 +60,7 @@ public class User{
         this.zip = zip;
         this.mail = mail;
         this.phone = phone;
+        this.role = Role.USER;
     }
 
     /* ----- GETTER AND SETTER ----- */

@@ -2,6 +2,7 @@ package com.oc.Climb.controller;
 
 import com.oc.Climb.DAO.ToposService;
 import com.oc.Climb.DAO.UserService;
+import com.oc.Climb.enums.Role;
 import com.oc.Climb.manager.LogInManager;
 import com.oc.Climb.model.Topos;
 import com.oc.Climb.model.User;
@@ -75,6 +76,7 @@ public class AppController {
 
     @RequestMapping(value = "/registerCheck",method = RequestMethod.POST)
     public String viewRegisterCheckPageAndSaveUser(Model model, @ModelAttribute("user") User userCurrent){
+        userCurrent.setRole(Role.USER);
         userService.save(userCurrent);
         model.addAttribute("userCurrent",userCurrent);
         List<User> userList = userService.listAll();
