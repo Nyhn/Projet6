@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
@@ -50,12 +51,12 @@ public class AppController {
     }
 
     @RequestMapping(value = "/toposCheck",method = RequestMethod.POST)
-    public String saveToposAndViewToposCheckPage(@ModelAttribute("topos") Topos topos,/*@CookieValue(value="id",defaultValue = "-1") String id,*/Model model){
-        /*User userCurrent = userService.get(Long.parseLong(id));
-        if(userCurrent != null) {*/
-            //topos.setUser(userCurrent);
+    public String saveToposAndViewToposCheckPage(@ModelAttribute("topos") Topos topos,@CookieValue(value="id",defaultValue = "-1") String id,Model model){
+        User userCurrent = userService.get(Long.parseLong(id));
+        if(userCurrent != null) {
+            topos.setUser(userCurrent);
             toposService.save(topos);
-        /*}*/
+        }
         List<Topos> toposList = toposService.listAll();
         model.addAttribute("listTopos",toposList);
 
@@ -91,12 +92,14 @@ public class AppController {
 
 
     @RequestMapping(value = "/logInCheck",method = RequestMethod.POST)
-    public String viewLogInCheckPage(HttpServletResponse response,Model model, @ModelAttribute("user") User user){
+    public String viewLogInCheckPage(HttpServletResponse response,HttpServletRequest request,Model model, @ModelAttribute("user") User user){
         User userSearch = userService.findByPseudo(user.getPseudo());
         String message = "";
         if(user.getPassword().equals(userSearch.getPassword())) {
             if (userSearch != null) {
                 model.addAttribute("userSearch", userSearch);
+//                HttpSession session = request.getSession();
+//                session.setAttribute("id",userSearch.getId());
                 Cookie cookie = new Cookie("id", Long.toString(userSearch.getId()));
                 cookie.setMaxAge(24 * 60 * 60);
                 response.addCookie(cookie);

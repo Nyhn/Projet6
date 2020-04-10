@@ -6,10 +6,7 @@ import java.util.Set;
 @Entity
 public class User{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
+    private Long id;
     private String pseudo;
     private String password;
     private String name;
@@ -20,17 +17,18 @@ public class User{
     private int zip;
     private String mail;
     private int phone;
-//
-//    @OneToMany(mappedBy ="user")
-//    private Set<Topos> toposCollection;
-//
-//    public Set<Topos> getToposCollection() {
-//        return toposCollection;
-//    }
-//
-//    public void setToposCollection(Set<Topos> toposCollection) {
-//        this.toposCollection = toposCollection;
-//    }
+
+
+    private Set<Topos> toposCollection;
+
+    @OneToMany(mappedBy ="user")
+    public Set<Topos> getToposCollection() {
+        return toposCollection;
+    }
+
+    public void setToposCollection(Set<Topos> toposCollection) {
+        this.toposCollection = toposCollection;
+    }
 
     public User() {
     }
@@ -122,10 +120,13 @@ public class User{
         this.phone = phone;
     }
 
-    public int getId() {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    public Long getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

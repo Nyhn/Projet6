@@ -10,20 +10,20 @@ public class Topos {
     private boolean available;
     private String image;
 
-//    @ManyToOne
-//   @JoinColumn(name="fk_user")
-//    public User user;
+    public User user;
 
     public Topos() {
     }
 
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
+    @ManyToOne
+    @JoinColumn(name="id_user")
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
