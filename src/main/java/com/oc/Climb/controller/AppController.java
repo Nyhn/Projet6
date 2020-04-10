@@ -52,8 +52,11 @@ public class AppController {
     }
 
     @RequestMapping(value = "/toposCheck",method = RequestMethod.POST)
-    public String saveToposAndViewToposCheckPage(@ModelAttribute("topos") Topos topos,@CookieValue(value="id",defaultValue = "-1") String id,Model model){
+    public String saveToposAndViewToposCheckPage( HttpServletRequest request,@ModelAttribute("topos") Topos topos,@CookieValue(value="id",defaultValue = "-1") String id,Model model){
         User userCurrent = userService.get(Long.parseLong(id));
+        System.out.println();
+        HttpSession session = request.getSession();
+        System.out.println(session.getAttribute("id"));
         if(userCurrent != null) {
             topos.setUser(userCurrent);
             toposService.save(topos);
@@ -100,8 +103,8 @@ public class AppController {
         if(user.getPassword().equals(userSearch.getPassword())) {
             if (userSearch != null) {
                 model.addAttribute("userSearch", userSearch);
-//                HttpSession session = request.getSession();
-//                session.setAttribute("id",userSearch.getId());
+                HttpSession session = request.getSession();
+                session.setAttribute("id",userSearch.getId());
                 Cookie cookie = new Cookie("id", Long.toString(userSearch.getId()));
                 cookie.setMaxAge(24 * 60 * 60);
                 response.addCookie(cookie);
