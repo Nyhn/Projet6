@@ -4,6 +4,7 @@ import com.oc.Climb.DAO.ToposService;
 import com.oc.Climb.DAO.UserService;
 import com.oc.Climb.enums.Role;
 import com.oc.Climb.manager.LogInManager;
+import com.oc.Climb.model.Site;
 import com.oc.Climb.model.Topos;
 import com.oc.Climb.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -154,7 +155,17 @@ public class AppController {
         return "climbingSite";
     }
 
-
+    @RequestMapping("/addSite")
+    public String viewAddSitePage(Model model,HttpServletRequest request){
+        HttpSession session = request.getSession();
+        Long idCurrent = (Long) session.getAttribute("idCurrent");
+        if(idCurrent != null) {
+            Site site = new Site();
+            model.addAttribute("site", site);
+            return "addSite";
+        }
+        return "redirect:/logIn";
+    }
 
 
 
