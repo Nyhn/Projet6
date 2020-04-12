@@ -2,10 +2,10 @@
 <head th:include="include/head.html"></head>
 <body>
 <div class="container">
-    <div th:if="${id != '-1'}">
+    <div th:if="${!#strings.equals(role, 'NOT_CONNECTED')}">
         <header th:include="include/headerConnected.html"></header>
     </div>
-    <div th:unless="${id != '-1'}">
+    <div th:unless="${!#strings.equals(role, 'NOT_CONNECTED')}">
          <header th:include="include/header.html"></header>
     </div>
     <div class="row">

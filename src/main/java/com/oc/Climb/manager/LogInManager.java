@@ -1,19 +1,21 @@
 package com.oc.Climb.manager;
 
-import com.oc.Climb.DAO.UserService;
+import com.oc.Climb.enums.Role;
 import com.oc.Climb.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class LogInManager {
 
-    @Autowired
-    private UserService userService;
-    public void checkLog(User user){
-        System.out.println(user.getPassword());
-//        User userCurrent = userService.findByPseudo(user.getPseudo());
-//        if(userCurrent != null)
-//            System.out.println("ok");
-//        else
-//            System.out.println("not ok");
+    public Role checkLog(User user){
+
+        if(user == null)
+            return Role.NOT_CONNECTED;
+        else if(user.getRole().equals(Role.USER))
+            return Role.USER;
+        else if(user.getRole().equals(Role.MEMBER))
+            return Role.MEMBER;
+        else if(user.getRole().equals(Role.ADMINISTRATOR))
+            return Role.ADMINISTRATOR;
+        else
+            return Role.NOT_CONNECTED;
     }
 }
