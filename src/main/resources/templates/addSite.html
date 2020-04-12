@@ -9,47 +9,53 @@
         <header th:include="include/header.html"></header>
     </div>
     <div class="row">
-        <form method="post" action="#" th:action="@{/toposCheck}" th:object="${topos}" class="col-lg-9 form-horizontal well">
-            <legend class="h4 border-bottom">Ajouter un topos</legend>
+        <form method="post" action="#" th:action="@{/siteCheck}" th:object="${site}" class="col-lg-9 form-horizontal well">
+            <legend class="h4 border-bottom">Ajout d'un site d'escalade</legend>
             <br>
             <fieldset >
-                <legend class="push border-bottom">Caractéristiques</legend>
+                <legend class="push border-bottom">INFO1</legend>
                 <div class="row form-group">
-                    <label for="title" class="offset-lg-1 offset-sm-1 col-2 control-label">Titre:</label>
+                    <label for="name" class="offset-lg-1 offset-sm-1 col-2 control-label">Nom:</label>
                     <div class="col-7">
-                        <input id="title" type="text" th:field="*{title}" class="form-control">
+                        <input id="name" type="text" th:field="*{name}" class="form-control">
                     </div>
                 </div>
                 <div class="row form-group">
-                    <label for="autor" class="offset-lg-1 offset-sm-1 col-2 control-label">Auteur:</label>
+                    <label for="place" class="offset-lg-1 offset-sm-1 col-2 control-label">Lieu:</label>
                     <div class="col-7">
-                        <input id="autor" name="autor" type="text" class="form-control">
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <label for="image" class="offset-lg-1 offset-sm-1 col-2 control-label">Lien de l'image:</label>
-                    <div class="col-7">
-                        <input id="image" name="image" type="url" class="form-control">
+                        <input id="place"  type="text" th:field="*{place}"class="form-control">
                     </div>
                 </div>
             </fieldset>
             <fieldset>
-                <legend class="push border-bottom">État de disponibilité</legend>
+                <legend class="push border-bottom">INFO2</legend>
                 <div class="row form-group">
-                    <label for="available" class="offset-lg-1 offset-sm-1 col-2 control-label">Disponible:</label>
-                    <div class ="radio col-7">
-                        <label id="available" for="no" class="radio">
-                            <input type="radio" name="available" value="no" id="no">
-                            Non &emsp; &emsp;
-                        </label>
-                        <label id="sex" for="yes" class="radio">
-                            <input type="radio" name="available" value="yes" id="yes">
-                            Oui
-                        </label>
+                    <label for="orientation" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Orientation: </label>
+                    <div class="col-xs-7 col-sm-7 col-lg-7">
+                        <input id="orientation" th:field="*{orientation}" type="text" class="form-control">
                     </div>
                 </div>
-                <button class="btn btn-primary offset-9" type="submit">Envoyer</button>
+                <div class="row form-group">
+                    <label for="rockType" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Roche: </label>
+                    <div class="col-xs-7 col-sm-7 col-lg-7">
+                        <input id="rockType" th:field="*{rockType}" type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="picture" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Url de la photo: </label>
+                    <div class="col-xs-7 col-sm-7 col-lg-7">
+                        <input id="picture" th:field="*{picture}" type="url" class="form-control">
+                    </div>
+                </div>
+                <div class="row form-group">
+
+                    <label for="presentation" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Présentation :</label>
+                    <div class="col-xs-7 col-sm-7 col-lg-7">
+                        <textarea id="presentation" th:field="*{presentation}" class="form-control"> présentation du lieu d'escalade , forme, accessibilté ...</textarea>
+                    </div>
+                </div>
             </fieldset>
+                        <button class="btn btn-primary offset-9" type="submit">Envoyer</button>
         </form>
         <nav th:include="include/highlight-site.html"  class="border-cadre col-lg-3"></nav>
     </div>
