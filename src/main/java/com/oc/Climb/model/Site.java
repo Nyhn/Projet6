@@ -10,7 +10,7 @@ public class Site {
     private String place;
     private String level;
     private String orientation;
-    private String rockType;
+    private String rocktype;
     private String picture;
     private String presentation;
 
@@ -60,12 +60,12 @@ public class Site {
         this.orientation = orientation;
     }
 
-    public String getRockType() {
-        return rockType;
+    public String getRocktype() {
+        return rocktype;
     }
 
-    public void setRockType(String rockType) {
-        this.rockType = rockType;
+    public void setRocktype(String rocktype) {
+        this.rocktype = rocktype;
     }
 
     public String getPicture() {

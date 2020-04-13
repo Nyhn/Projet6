@@ -1,5 +1,6 @@
 package com.oc.Climb.controller;
 
+import com.oc.Climb.DAO.SiteService;
 import com.oc.Climb.DAO.ToposService;
 import com.oc.Climb.DAO.UserService;
 import com.oc.Climb.enums.Role;
@@ -25,6 +26,9 @@ public class AppController {
 
     @Autowired
     private ToposService toposService;
+
+    @Autowired
+    private SiteService siteService;
 /* page général */
 
     @RequestMapping("/")
@@ -167,6 +171,19 @@ public class AppController {
         return "redirect:/logIn";
     }
 
+    @RequestMapping(value = "/siteCheck",method = RequestMethod.POST)
+    public String saveSiteAndViewSiteCheckPage( HttpServletRequest request,@ModelAttribute("site") Site site,Model model){
 
+        HttpSession session = request.getSession();
+        User userCurrent = userService.get((Long)session.getAttribute("idCurrent"));
+        if(userCurrent != null) {
+            siteService.save(site);
+        }
+        model.addAttribute("site",site);
+        List<Site> siteList = siteService.listAll();
+        model.addAttribute("siteList",siteList);
+
+        return "siteCheck";
+    }
 
 }

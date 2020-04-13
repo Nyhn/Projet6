@@ -13,7 +13,7 @@ public class SiteService {
     @Autowired
     public SiteService(SiteRepository siteRepository){ this.siteRepository = siteRepository; }
 
-    public List<Site> ListAll(){ return siteRepository.findAll();}
+    public List<Site> listAll(){ return siteRepository.findAll();}
 
     public void save(Site site){ siteRepository.save(site);}
 
