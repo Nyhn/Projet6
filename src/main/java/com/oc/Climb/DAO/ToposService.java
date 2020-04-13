@@ -19,4 +19,6 @@ public class ToposService {
     public Topos get(Long id){ return toposRepository.findById(id).get();}
 
     public void delete(Long id){ toposRepository.deleteById(id);}
+
+    public List<Topos> findToposByUser(User user){ return toposRepository.FindToposByUser(user);}
 }
