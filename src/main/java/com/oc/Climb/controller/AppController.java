@@ -145,8 +145,8 @@ public class AppController {
 
     @RequestMapping("/catalog")
     public String viewLogInPage(Model model){
-        User user = new User();
-        model.addAttribute("user",user);
+        List<Site> siteList = siteService.listAll();
+        model.addAttribute("siteList",siteList);
         return "catalog";
     }
 

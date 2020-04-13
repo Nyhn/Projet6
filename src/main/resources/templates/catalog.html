@@ -66,53 +66,9 @@
             </form>
             <div class="container">
                 <section class="row">
-                    <figure class="col-pad col-xs-6 col-sm-4 col-md-3">
-                        <a href="/Climb_war/climbingSite" class="link-img"><img class="row" src="img/1.jpg" alt="climb">
-                            <figcaption class="row">site 1</figcaption></a>
-                    </figure>
-                    <figure class="col-pad col-xs-6 col-sm-4 col-md-3">
-                        <a href="/Climb_war/climbingSite" class="link-img"><img class="row" src="img/2.jpg" alt="climb">
-                            <figcaption class="row">site 2</figcaption></a>
-                    </figure>
-                    <figure class="col-pad col-xs-6 col-sm-4 col-md-3">
-                        <a href="/Climb_war/climbingSite" class="link-img"><img class="row" src="img/3.jpg" alt="climb">
-                            <figcaption class="row">site 3</figcaption></a>
-                    </figure>
-                    <figure class="col-pad col-xs-6 col-sm-4 col-md-3">
-                        <a href="/Climb_war/climbingSite" class="link-img"><img class="row" src="img/3.jpg" alt="climb">
-                            <figcaption class="row">site 4</figcaption></a>
-                    </figure>
-                    <figure class="col-pad col-xs-6 col-sm-4 col-md-3">
-                        <a href="/Climb_war/climbingSite" class="link-img"><img class="row" src="img/5.jpg" alt="climb">
-                            <figcaption class="row">site 5</figcaption></a>
-                    </figure>
-                    <figure class="col-pad col-xs-6 col-sm-4 col-md-3">
-                        <a href="/Climb_war/climbingSite" class="link-img"><img class="row" src="img/6.jpg" alt="climb">
-                            <figcaption class="row">site 6</figcaption></a>
-                    </figure>
-                    <figure class="col-pad col-xs-6 col-sm-4 col-md-3">
-                        <a href="/Climb_war/climbingSite" class="link-img"><img class="row" src="img/1.jpg" alt="climb">
-                            <figcaption class="row">site 7</figcaption></a>
-                    </figure>
-                    <figure class="col-pad col-xs-6 col-sm-4 col-md-3">
-                        <a href="/Climb_war/climbingSite" class="link-img"><img class="row" src="img/2.jpg" alt="climb">
-                            <figcaption class="row">site 8</figcaption></a>
-                    </figure>
-                    <figure class="col-pad col-xs-6 col-sm-4 col-md-3">
-                        <a href="/Climb_war/climbingSite" class="link-img"><img class="row" src="img/3.jpg" alt="climb">
-                            <figcaption class="row">site 9</figcaption></a>
-                    </figure>
-                    <figure class="col-pad col-xs-6 col-sm-4 col-md-3">
-                        <a href="/Climb_war/climbingSite" class="link-img"><img class="row" src="img/4.jpg" alt="climb">
-                            <figcaption class="row">site 10</figcaption></a>
-                    </figure>
-                    <figure class="col-pad col-xs-6 col-sm-4 col-md-3">
-                        <a href="/Climb_war/climbingSite" class="link-img"><img class="row" src="img/5.jpg" alt="climb">
-                            <figcaption class="row">site 11</figcaption></a>
-                    </figure>
-                    <figure class="col-pad col-xs-6 col-sm-4 col-md-3">
-                        <a href="/Climb_war/climbingSite" class="link-img"><img class="row" src="img/6.jpg" alt="climb">
-                            <figcaption class="row">site 12</figcaption></a>
+                    <figure th:each="site : ${siteList}" class="col-pad col-xs-6 col-sm-4 col-md-3">
+                        <a href="climbingSite" class="link-img"><img class="row" th:src="${site.picture}" alt="climb">
+                            <figcaption class="row"><span th:text="${site.name}"/></figcaption></a>
                     </figure>
                 </section>
             </div>
