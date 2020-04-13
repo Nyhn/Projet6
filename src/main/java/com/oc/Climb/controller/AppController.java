@@ -66,10 +66,9 @@ public class AppController {
         if(userCurrent != null) {
             topos.setUser(userCurrent);
             toposService.save(topos);
+            List<Topos> toposList = toposService.findToposByUser(userCurrent);
+            model.addAttribute("listTopos", toposList);
         }
-        List<Topos> toposList = toposService.listAll();
-        model.addAttribute("listTopos",toposList);
-
         return "toposCheck";
     }
 
