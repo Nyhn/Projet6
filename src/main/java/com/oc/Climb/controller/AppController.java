@@ -41,6 +41,8 @@ public class AppController {
 
         LogInManager logInManager = new LogInManager();
         model.addAttribute("role", logInManager.checkLog(userCurrent));
+        List<Site> siteList = siteService.listAll();
+        model.addAttribute("highlightSite",siteList);
         System.out.println(logInManager.checkLog(userCurrent));
         return "homepage";
     }
@@ -185,4 +187,13 @@ public class AppController {
         return "siteCheck";
     }
 
+    @RequestMapping("/account")
+    public String viewAccountPage(Model model,HttpServletRequest request){
+        HttpSession session = request.getSession();
+        Long idCurrent = (Long) session.getAttribute("idCurrent");
+        if(idCurrent != null) {
+            return "account";
+        }
+        return "redirect:/logIn";
+    }
 }

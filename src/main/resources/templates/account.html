@@ -1,0 +1,22 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/head.html"></head>
+<body>
+<div class="container">
+    <div th:if="${id != '-1'}">
+        <header th:include="include/headerConnected.html"></header>
+    </div>
+    <div th:unless="${id != '-1'}">
+        <header th:include="include/header.html"></header>
+    </div>
+    <div class="row">
+        <div class="col-lg-9 form-horizontal well">
+
+
+        </div>
+        <nav th:include="include/highlight-site.html"  class="border-cadre col-lg-3"></nav>
+    </div>
+    <footer class="border-cadre row" th:include="include/footer.html"></footer>
+</div>
+
+</body>
+</html>
