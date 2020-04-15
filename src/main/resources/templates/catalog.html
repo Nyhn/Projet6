@@ -67,7 +67,7 @@
             <div class="container">
                 <section class="row">
                     <figure th:each="site : ${siteList}" class="col-pad col-xs-6 col-sm-6 col-md-4">
-                        <a href="climbingSite" class="link-img"><img class="row img-thumbnail" th:src="${site.picture}" alt="climb">
+                        <a th:href="@{'/climbingSite/'+${site.id}}" class="link-img"><img class="row img-thumbnail" th:src="${site.picture}" alt="climb">
                             <figcaption class="row"><span th:text="${site.name}"/></figcaption></a>
                     </figure>
                 </section>

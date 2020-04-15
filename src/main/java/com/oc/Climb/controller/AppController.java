@@ -181,13 +181,6 @@ public class AppController {
     }
 
 
-    @RequestMapping("/climbingSite")
-    public String viewClimbingSitePage(Model model){
-        User user = new User();
-        model.addAttribute("user",user);
-        return "climbingSite";
-    }
-
     @RequestMapping("/addSite")
     public String viewAddSitePage(Model model,HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -229,10 +222,12 @@ public class AppController {
     }
 
     @RequestMapping(value = "/climbingSite/{id}")
-    public String showClimbingSitePage(@PathVariable(name = "id") Long id,Model model){
+    public ModelAndView showClimbingSitePage(@PathVariable(name = "id") Long id){
+        ModelAndView modelAndView = new ModelAndView("climbingSite");
         Site siteSelect = siteService.get(id);
-        model.addAttribute("site",siteSelect);
+        modelAndView.addObject("site",siteSelect);
 
-        return "climbingSite/{id}";
+        return modelAndView;
     }
+
 }
