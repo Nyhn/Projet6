@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 public class Topos {
-    private int id;
+    private Long id;
     private String title;
     private String autor;
     private boolean available;
@@ -27,11 +27,11 @@ public class Topos {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

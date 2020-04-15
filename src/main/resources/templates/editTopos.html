@@ -15,6 +15,12 @@
             <fieldset >
                 <legend class="push border-bottom">Caractéristiques</legend>
                 <div class="row form-group">
+                    <label for="id" class="offset-lg-1 offset-sm-1 col-2 control-label">ID topos:</label>
+                    <div class="col-7">
+                        <input id="id" type="text" th:field="*{id}" class="form-control" readonly="readonly">
+                    </div>
+                </div>
+                <div class="row form-group">
                     <label for="title" class="offset-lg-1 offset-sm-1 col-2 control-label">Titre:</label>
                     <div class="col-7">
                         <input id="title" type="text" th:field="*{title}" class="form-control">

@@ -12,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 
 import javax.servlet.http.*;
@@ -74,6 +76,22 @@ public class AppController {
         return "toposCheck";
     }
 
+    @RequestMapping(value = "/editTopos/{id}")
+    public ModelAndView showEditToposPage(@PathVariable(name = "id") Long id){
+        ModelAndView modelAndView = new ModelAndView("editTopos");
+
+        Topos topos = toposService.get(id);
+        modelAndView.addObject("topos",topos);
+
+        return modelAndView;
+    }
+    @RequestMapping(value = "/deleteTopos/{id}")
+    public String showDeleteToposPage(@PathVariable(name = "id") Long id){
+        toposService.delete(id);
+
+        return "redirect:/account";
+    }
+
 /* page qui manipule User */
 
     @RequestMapping("/register")
@@ -100,6 +118,16 @@ public class AppController {
         session.setAttribute("idCurrent",userCurrent.getId());
 
         return "registerCheck";
+    }
+
+    @RequestMapping(value = "/editUser/{id}")
+    public ModelAndView showEditUserPage(@PathVariable(name = "id") Long id){
+        ModelAndView modelAndView = new ModelAndView("editUser");
+
+        User user = userService.get(id);
+        modelAndView.addObject("user",user);
+
+        return modelAndView;
     }
 
     @RequestMapping("/logIn")
@@ -190,10 +218,21 @@ public class AppController {
     @RequestMapping("/account")
     public String viewAccountPage(Model model,HttpServletRequest request){
         HttpSession session = request.getSession();
-        Long idCurrent = (Long) session.getAttribute("idCurrent");
-        if(idCurrent != null) {
+        User userCurrent = userService.get((Long)session.getAttribute("idCurrent"));
+        if(userCurrent != null) {
+            model.addAttribute("userCurrent",userCurrent);
+            List<Topos> toposList = toposService.findToposByUser(userCurrent);
+            model.addAttribute("toposList",toposList);
             return "account";
         }
         return "redirect:/logIn";
+    }
+
+    @RequestMapping(value = "/climbingSite/{id}")
+    public String showClimbingSitePage(@PathVariable(name = "id") Long id,Model model){
+        Site siteSelect = siteService.get(id);
+        model.addAttribute("site",siteSelect);
+
+        return "climbingSite/{id}";
     }
 }
