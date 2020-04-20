@@ -1,6 +1,7 @@
 package com.oc.Climb.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Site {
@@ -13,6 +14,10 @@ public class Site {
     private String rocktype;
     private String picture;
     private String presentation;
+    private boolean official;
+    private Set<Comment> commentCollection;
+
+
 
     public Site() {
     }
@@ -82,5 +87,22 @@ public class Site {
 
     public void setPresentation(String presentation) {
         this.presentation = presentation;
+    }
+
+    public boolean isOfficial() {
+        return official;
+    }
+
+    public void setOfficial(boolean official) {
+        this.official = official;
+    }
+
+    @OneToMany(mappedBy ="site")
+    public Set<Comment> getCommentCollection() {
+        return commentCollection;
+    }
+
+    public void setCommentCollection(Set<Comment> commentCollection) {
+        this.commentCollection = commentCollection;
     }
 }

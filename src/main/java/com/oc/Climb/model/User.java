@@ -38,6 +38,17 @@ public class User{
 
     private Set<Topos> toposCollection;
 
+    private Set<Comment> commentCollection;
+
+    @OneToMany(mappedBy ="user")
+    public Set<Comment> getCommentCollection() {
+        return commentCollection;
+    }
+
+    public void setCommentCollection(Set<Comment> commentCollection) {
+        this.commentCollection = commentCollection;
+    }
+
     @OneToMany(mappedBy ="user")
     public Set<Topos> getToposCollection() {
         return toposCollection;

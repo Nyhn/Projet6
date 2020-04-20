@@ -65,6 +65,31 @@
                 </div>
 
             </div>
+            <ul class="list-unstyled">
+                <li th:each="comment:${commentList}" class="media">
+                    <img src="/img/userLogo.jpg" class="mr-3" alt="...">
+                    <div class="row">
+                        <div class="media-body col-10">
+                            <h5 class="mt-0 mb-1" th:text="${comment.getUser().getName()}+' '+${comment.getUser().getFirstname()}"></h5>
+                            <p th:text="${comment.getText()}"></p>
+                        </div>
+                        <div class="col-2">
+                            <a th:href="@{'/editComment/'+${comment.id}}">Éditer</a><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <a th:href="@{'/deleteComment/'+${comment.id}}">Supprimer</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="media">
+                    <img src="/img/userLogo.jpg" class="mr-3" alt="...">
+                    <div class="media-body">
+                        <h5 class="mt-0 mb-1"> Ajouter un commentaire</h5>
+                        <form method="post" action="#" th:action="@{'/saveComment/'+${site.id}}" th:object="${comment}" class="col-lg-9 form-horizontal well">
+                            <textarea id="title" type="text" th:field="*{text}" class="form-control"></textarea>
+                            <button class="btn btn-primary" type="submit">Envoyer</button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
             <div class="border-cadre row">
                 <div class="col-12">
                     <legend class="push-white border-bottom">Action</legend>
@@ -72,10 +97,8 @@
                 <nav class="navbar navbar-expand">
                     <div class="container-fluid">
                         <ul class="nav navbar-nav">
-                            <li> <a class="link-ban" href="homepage.html">Ajouter un commentaire</a>&emsp;</li>
-                            <li >&emsp;<a class="link-ban" href="#">Sites Modifier les caractéristiques</a>&emsp;</li>
-                            <li >&emsp;<a class="link-ban" href="#">Partager</a>&emsp;</li>
-                            <li >&emsp;<a class="link-ban" href="#">demander le topo</a>&emsp;</li>
+                            <li><a th:href="@{'/putOfficial/'+${site.id}}">Taguer ce site</a></li>
+                            <li ><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><a th:href="@{'/unputOfficial/'+${site.id}}">Détaguer ce site</a></li>
                         </ul>
                     </div>
                 </nav>

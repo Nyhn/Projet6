@@ -10,9 +10,20 @@ public class Topos {
     private boolean available;
     private String image;
 
-    public User user;
+    private User user;
+    private User userBooking;
 
     public Topos() {
+    }
+
+    @ManyToOne
+    @JoinColumn(name="id_userbooking")
+    public User getUserBooking() {
+        return userBooking;
+    }
+
+    public void setUserBooking(User userBooking) {
+        this.userBooking = userBooking;
     }
 
     @ManyToOne
