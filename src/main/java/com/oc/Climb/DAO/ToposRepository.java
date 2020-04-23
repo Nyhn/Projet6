@@ -18,6 +18,6 @@ public interface ToposRepository extends JpaRepository<Topos,Long> {
     @Query("SELECT topos FROM Topos topos WHERE topos.userBooking = :user")
     List<Topos> FindToposByUserBooking(@Param("user") User user);
 
-    @Query("SELECT topos FROM Topos topos WHERE topos.title = :search or topos.autor = :search")
+    @Query("SELECT topos FROM Topos topos WHERE (topos.title like %:search% or topos.autor like %:search%) and topos.available = true")
     List<Topos> FindToposBySearch(@Param("search") String search);
 }

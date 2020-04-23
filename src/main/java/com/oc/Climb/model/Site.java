@@ -1,5 +1,7 @@
 package com.oc.Climb.model;
 
+import com.oc.Climb.enums.Level;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -9,14 +11,14 @@ public class Site {
     private Long id;
     private String name;
     private String place;
-    private String level;
+    private Level level;
     private String orientation;
     private String rocktype;
     private String picture;
     private String presentation;
     private boolean official;
     private Set<Comment> commentCollection;
-
+    private int sector;
 
 
     public Site() {
@@ -47,14 +49,6 @@ public class Site {
 
     public void setPlace(String place) {
         this.place = place;
-    }
-
-    public String getLevel() {
-        return level;
-    }
-
-    public void setLevel(String level) {
-        this.level = level;
     }
 
     public String getOrientation() {
@@ -95,6 +89,22 @@ public class Site {
 
     public void setOfficial(boolean official) {
         this.official = official;
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
+    }
+
+    public int getSector() {
+        return sector;
+    }
+
+    public void setSector(int sector) {
+        this.sector = sector;
     }
 
     @OneToMany(mappedBy ="site")

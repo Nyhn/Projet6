@@ -4,13 +4,12 @@ import com.oc.Climb.DAO.CommentService;
 import com.oc.Climb.DAO.SiteService;
 import com.oc.Climb.DAO.ToposService;
 import com.oc.Climb.DAO.UserService;
+import com.oc.Climb.enums.Level;
 import com.oc.Climb.enums.Role;
 import com.oc.Climb.manager.LogInManager;
-import com.oc.Climb.model.Comment;
-import com.oc.Climb.model.Site;
-import com.oc.Climb.model.Topos;
-import com.oc.Climb.model.User;
-import org.hibernate.Session;
+import com.oc.Climb.model.*;
+import com.oc.Climb.utils.SearchSiteForm;
+import com.oc.Climb.utils.SearchToposForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -183,16 +182,148 @@ public class AppController {
 
     @RequestMapping("/catalog")
     public String viewCatalogPage(Model model) {
+        SearchSiteForm searchSiteForm = new SearchSiteForm();
+        searchSiteForm.init();
+        System.out.println("---------");
+        System.out.println(searchSiteForm.getPlace());
+        System.out.println(searchSiteForm.getOfficial());
+        System.out.println(searchSiteForm.getNbSectors());
+        System.out.println(searchSiteForm.getLevel());
+        System.out.println("---------");
         List<Site> siteList = siteService.listAll();
         model.addAttribute("siteList", siteList);
+        model.addAttribute("search", searchSiteForm);
         return "catalog";
     }
 
-    @RequestMapping("/librairy")
+    @RequestMapping("/catalogSearch")
+    public String viewCatalogSearchPage(Model model,@ModelAttribute("search") SearchSiteForm searchSiteForm) {
+        List<Site> siteList;
+        System.out.println("---------");
+        System.out.println(searchSiteForm.getPlace());
+        System.out.println(searchSiteForm.getOfficial());
+        System.out.println(searchSiteForm.getNbSectors());
+        System.out.println(searchSiteForm.getLevel());
+        System.out.println("---------");
+        if(searchSiteForm.getPlace() != ""){
+            if(searchSiteForm.getOfficial()){
+                if(searchSiteForm.getNbSectors()!= -1){
+                    if(searchSiteForm.getNbSectors()>=8) {
+                        if (searchSiteForm.getLevel() != Level.NOT_SELECTED)
+                            siteList = siteService.findSiteBySearchPlaceAndSectorSuppAndLevelAndOfficial(searchSiteForm.getPlace(),searchSiteForm.getLevel());
+                        else
+                            siteList = siteService.findSiteBySearchPlaceAndSectorSuppAndOfficial(searchSiteForm.getPlace());
+                    }
+                    else{
+                        if (searchSiteForm.getLevel() != Level.NOT_SELECTED)
+                            siteList = siteService.findSiteBySearchPlaceAndSectorAndLevelAndOfficial(searchSiteForm.getPlace(),searchSiteForm.getNbSectors(),searchSiteForm.getLevel());
+                        else
+                            siteList = siteService.findSiteBySearchPlaceAndSectorAndOfficial(searchSiteForm.getPlace(),searchSiteForm.getNbSectors());
+                    }
+                }
+                else {
+                    if (searchSiteForm.getLevel() != Level.NOT_SELECTED)
+                            siteList = siteService.findSiteBySearchPlaceAndLevelAndOfficial(searchSiteForm.getPlace(),searchSiteForm.getLevel());
+                    else
+                            siteList = siteService.findSiteBySearchPlaceAndOfficial(searchSiteForm.getPlace());
+                }
+            }
+            else {
+                if(searchSiteForm.getNbSectors()!= -1){
+                    if(searchSiteForm.getNbSectors()>=8) {
+                        if (searchSiteForm.getLevel() != null)
+                            siteList = siteService.findSiteBySearchPlaceAndSectorSuppAndLevel(searchSiteForm.getPlace(),searchSiteForm.getLevel());
+                        else
+                            siteList = siteService.findSiteBySearchPlaceAndSectorSupp(searchSiteForm.getPlace());
+                    }
+                    else{
+                        if (searchSiteForm.getLevel() != Level.NOT_SELECTED)
+                            siteList = siteService.findSiteBySearchPlaceAndSectorAndLevel(searchSiteForm.getPlace(),searchSiteForm.getNbSectors(),searchSiteForm.getLevel());
+                        else
+                            siteList = siteService.findSiteBySearchPlaceAndSector(searchSiteForm.getPlace(),searchSiteForm.getNbSectors());
+                    }
+                }
+                else {
+                    if (searchSiteForm.getLevel() != Level.NOT_SELECTED)
+                        siteList = siteService.findSiteBySearchPlaceAndLevel(searchSiteForm.getPlace(),searchSiteForm.getLevel());
+                    else
+                        siteList = siteService.findSiteBySearchPlace(searchSiteForm.getPlace());
+                    }
+                }
+        }
+        else {
+            if(searchSiteForm.getOfficial()){
+                if(searchSiteForm.getNbSectors()!= -1){
+                    if(searchSiteForm.getNbSectors()>=8) {
+                        if (searchSiteForm.getLevel() != Level.NOT_SELECTED)
+                            siteList = siteService.findSiteBySearchSectorSuppAndLevelAndOfficial(searchSiteForm.getLevel());
+                        else
+                            siteList = siteService.findSiteBySearchSectorSuppAndOfficial();
+                    }
+                    else{
+                        if (searchSiteForm.getLevel() != Level.NOT_SELECTED)
+                            siteList = siteService.findSiteBySearchSectorAndLevelAndOfficial(searchSiteForm.getNbSectors(),searchSiteForm.getLevel());
+                        else
+                            siteList = siteService.findSiteBySearchSectorAndOfficial(searchSiteForm.getNbSectors());
+                    }
+                }
+                else {
+                    if (searchSiteForm.getLevel() != Level.NOT_SELECTED)
+                        siteList = siteService.findSiteBySearchLevelAndOfficial(searchSiteForm.getLevel());
+                    else
+                        siteList = siteService.findSiteBySearchOfficial();
+                }
+            }
+            else {
+                if(searchSiteForm.getNbSectors()!= -1){
+                    if(searchSiteForm.getNbSectors()>=8) {
+                        if (searchSiteForm.getLevel() != Level.NOT_SELECTED)
+                            siteList = siteService.findSiteBySearchSectorSuppAndLevel(searchSiteForm.getLevel());
+                        else
+                            siteList = siteService.findSiteBySearchSectorSupp();
+                    }
+                    else{
+                        if (searchSiteForm.getLevel() != Level.NOT_SELECTED)
+                            siteList = siteService.findSiteBySearchSectorAndLevel(searchSiteForm.getNbSectors(),searchSiteForm.getLevel());
+                        else
+                            siteList = siteService.findSiteBySearchSector(searchSiteForm.getNbSectors());
+                    }
+                }
+                else {
+                    if (searchSiteForm.getLevel() != Level.NOT_SELECTED)
+                        siteList = siteService.findSiteBySearchLevel(searchSiteForm.getLevel());
+                    else
+                        return "redirect:/catalog";
+                }
+            }
+        }
+
+        model.addAttribute("siteList",siteList);
+        model.addAttribute("search",searchSiteForm);
+        searchSiteForm.init();
+        return "catalog";
+    }
+
+    @RequestMapping("/library")
     public String viewLibrairyPage(Model model) {
+        SearchToposForm searchToposForm = new SearchToposForm();
+        searchToposForm.setTitleOrAutor("");
         List<Topos> toposList = toposService.findToposByAvalaible();
         model.addAttribute("toposList", toposList);
-        return "librairy";
+        model.addAttribute("search", searchToposForm);
+        return "library";
+    }
+
+    @RequestMapping(value = "/librarySearch")
+    public String viewLibrarySearchPage(Model model,@ModelAttribute("searchForm") SearchToposForm searchToposForm) {
+        List<Topos> toposListWithSearch = toposService.findToposBySearch((String) searchToposForm.getTitleOrAutor());
+        if(searchToposForm.getTitleOrAutor() != "")
+            model.addAttribute("toposList", toposListWithSearch);
+        else
+            return "redirect:/library";
+        model.addAttribute("search", searchToposForm);
+        searchToposForm.setTitleOrAutor("");
+        return "library";
     }
 
 
