@@ -21,4 +21,10 @@ public class ToposService {
     public void delete(Long id){ toposRepository.deleteById(id);}
 
     public List<Topos> findToposByUser(User user){ return toposRepository.FindToposByUser(user);}
+
+    public List<Topos> findToposByAvalaible(){ return toposRepository.FindToposByAvailable();}
+
+    public List<Topos> findToposByUserBooking(User user){ return toposRepository.FindToposByUserBooking(user);}
+
+    public List<Topos> findToposBySearch(String search){ return toposRepository.FindToposBySearch(search);}
 }

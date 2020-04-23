@@ -1,0 +1,43 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/head.html"></head>
+<body>
+<div class="container">
+    <div th:if="${id != '-1'}">
+        <header th:include="include/headerConnected.html"></header>
+    </div>
+    <div th:unless="${id != '-1'}">
+        <header th:include="include/header.html"></header>
+    </div>
+    <div class="row">
+        <div class="media-body">
+            <h5 class="mt-0 mb-1"> Ajouter un commentaire</h5>
+            <form method="post" action="#" th:action="@{'/modifComment/'+${comment.id}}" th:object="${comment}" class="col-lg-9 form-horizontal well">
+                <div class="row form-group">
+                    <label for="id_site" class="offset-lg-1 offset-sm-1 col-2 control-label">ID Site:</label>
+                    <div class="col-7">
+                        <input id="id_site" type="text" th:field="*{site}" class="form-control" readonly="readonly">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="id_user" class="offset-lg-1 offset-sm-1 col-2 control-label">ID utilisateur:</label>
+                    <div class="col-7">
+                        <input id="id_user" type="text" th:field="*{user}" class="form-control" readonly="readonly">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="id" class="offset-lg-1 offset-sm-1 col-2 control-label">ID Commentaire:</label>
+                    <div class="col-7">
+                        <input id="id" type="text" th:field="*{id}" class="form-control" readonly="readonly">
+                    </div>
+                </div>
+                <textarea id="title" type="text" th:field="*{text}" class="form-control"></textarea>
+                <button class="btn btn-primary" type="submit">Envoyer</button>
+            </form>
+        </div>
+        <nav th:include="include/highlight-site.html"  class="border-cadre col-lg-3"></nav>
+    </div>
+    <footer class="border-cadre row" th:include="include/footer.html"></footer>
+</div>
+
+</body>
+</html>

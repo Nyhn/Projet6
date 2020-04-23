@@ -4,15 +4,26 @@ import javax.persistence.*;
 
 @Entity
 public class Topos {
-    private int id;
+    private Long id;
     private String title;
     private String autor;
     private boolean available;
     private String image;
 
-    public User user;
+    private User user;
+    private User userBooking;
 
     public Topos() {
+    }
+
+    @ManyToOne
+    @JoinColumn(name="id_userbooking")
+    public User getUserBooking() {
+        return userBooking;
+    }
+
+    public void setUserBooking(User userBooking) {
+        this.userBooking = userBooking;
     }
 
     @ManyToOne
@@ -27,11 +38,11 @@ public class Topos {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

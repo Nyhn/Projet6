@@ -1,0 +1,56 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/head.html"></head>
+<body>
+<div class="container">
+    <div th:if="${id != '-1'}">
+        <header th:include="include/headerConnected.html"></header>
+    </div>
+    <div th:unless="${id != '-1'}">
+        <header th:include="include/header.html"></header>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 well">
+            <legend class="h4 border-bottom" th:text="${topos.title}"></legend>
+            <div class="row">
+                <div class="col-lg-6">
+                    <img class="img-site" th:src="${topos.image}" th:alt="${topos.id}">
+                </div>
+                <div class="col-lg-6">
+                    <div class="container">
+                        <div id="content" class="row">
+                            <legend class="push border-bottom">Descriptif</legend>
+                            <dl class="panel dl-horizontal">
+                                <dt>Titre</dt>
+                                <dd th:text="${topos.title}"></dd>
+                                <th:block th:if="${topos.autor} != null">
+                                    <dt>Auteur</dt>
+                                    <dd th:text="${topos.autor}"></dd>
+                                </th:block>
+                                <th:block th:if="${topos.available} != null">
+                                    <dt>Disponible</dt>
+                                    <dd th:text="${topos.available}"></dd>
+                                </th:block>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border-cadre row">
+                <div class="col-12">
+                    <legend class="push-white border-bottom">Action</legend>
+                </div>
+                <nav class="navbar navbar-expand">
+                    <div class="container-fluid">
+                        <ul class="nav navbar-nav">
+                            <li><a th:href="@{'/booking/'+${topos.id}}">Réservation du topos</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <footer class="border-cadre row" th:include="include/footer.html"></footer>
+</div>
+
+</body>
+</html>

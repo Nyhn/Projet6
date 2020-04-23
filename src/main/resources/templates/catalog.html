@@ -10,64 +10,21 @@
     </div>
     <div class="row">
         <div class="col-lg-9  well">
-            <form class="row form-horizontal inline-form">
-                <legend class="h4 border-bottom">Recherche de site d'escalade</legend>
-                <div class="col-lg-3">
-                    <div class="row">
-                        <label for="firstname" class="col-12 control-label">Lieu:</label>
-                    </div>
-                    <div class="row  ml-1 mr-1 mr-lg-0 ml-lg-0">
-                        <input id="firstname" type="text" class="col-12 form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="row">
-                        <label for="level" class="col-12 control-label">cotation:</label>
-                    </div>
-                    <div class="row  ml-1 mr-1 mr-lg-0">
-                        <select id="level" class="form-control">
-                            <option>Moins de 5c+</option>
-                            <option>Entre 6a et 6c+</option>
-                            <option>Entre 7a et 7c+</option>
-                            <option>Plus de 8a</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="row">
-                        <label for="level" class="
-							col-12 control-label">Nombre de secteur:</label>
-                    </div>
-                    <div class="row  ml-1 mr-1 mr-lg-0">
-                        <select id="level" class="form-control">
-                            <option>moins de 3</option>
-                            <option>4 à 6</option>
-                            <option>6 à 8</option>
-                            <option>8 à 10</option>
-                            <option>Plus de 10</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="row">
-                        <label for="name" class="col-12 control-label">Dernière mise à jour:</label>
-                    </div>
-                    <div class="row  ml-1 mr-1 ml-lg-0 mr-lg-0">
-                        <input id="name" type="Date" class="form-control col-12">
-                    </div>
-                </div>
             </form>
-            <br>
-            <form class="row navbar-form navbar-right inline-form">
+            <form method="post"  th:action="@{/catalogSearch}" th:object="${search}" class="col-lg-9 form-horizontal well">
                 <div class="col-12 form-group">
-                    <input type="search" class="input-sm form-control" placeholder="Recherche">
+                    <input id="place" type="text" th:field="*{place}" class="input-sm form-control" placeholder="place">
+                    <input id="sector" type="number" th:field="*{nbSectors}" class="input-sm form-control" placeholder="sector">
+                    <input id="level" type="text" th:field="*{level}" class="input-sm form-control" placeholder="level">
+                    <input id="official" type="text" th:field="*{official}" class="input-sm form-control" placeholder="official">
                     <button type="submit" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-eye-open"></span> Chercher</button>
                 </div>
             </form>
+            <br>
             <div class="container">
                 <section class="row">
-                    <figure th:each="site : ${siteList}" class="col-pad col-xs-6 col-sm-4 col-md-3">
-                        <a href="climbingSite" class="link-img"><img class="row" th:src="${site.picture}" alt="climb">
+                    <figure th:each="site : ${siteList}" class="col-pad col-xs-6 col-sm-6 col-md-4">
+                        <a th:href="@{'/climbingSite/'+${site.id}}" class="link-img"><img class="row img-thumbnail" th:src="${site.picture}" alt="climb">
                             <figcaption class="row"><span th:text="${site.name}"/></figcaption></a>
                     </figure>
                 </section>

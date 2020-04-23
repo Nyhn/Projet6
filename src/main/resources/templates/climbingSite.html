@@ -10,10 +10,10 @@
     </div>
     <div class="row">
         <div class="col-lg-12 well">
-            <legend class="h4 border-bottom">L'alchimie de la douleur</legend>
+            <legend class="h4 border-bottom" th:text="${site.name}"></legend>
             <div class="row">
                 <div class="col-lg-6">
-                    <img class="img-site" src="img/voie1.jpg" alt="photo l'alchimie de la douleur">
+                    <img class="img-site" th:src="${site.picture}" th:alt="${site.id}">
                 </div>
                 <div class="col-lg-6">
                     <div class="container">
@@ -21,10 +21,20 @@
                             <legend class="push border-bottom">Descriptif</legend>
                             <dl class="panel dl-horizontal">
                                 <dt>Lieu</dt>
-                                <dd>Les calanques de Marseille.</dd>
-                                <dt>Niveaux</dt>
-                                <dd>7b+ / 7a / 6c / 6a+ / 5b+ / 5a.</dd>
-                                <dt>Orientation</dt>
+                                <dd th:text="${site.place}"></dd>
+                                <th:block th:if="${site.level} != null">
+                                    <dt>Niveaux</dt>
+                                    <dd th:text="${site.level}"></dd>
+                                </th:block>
+                                <th:block th:if="${site.orientation} != null">
+                                    <dt>Orientation</dt>
+                                    <dd th:text="${site.orientation}"></dd>
+                                </th:block>
+                                <th:block th:if="${site.rocktype} != null">
+                                    <dt>Niveaux</dt>
+                                    <dd th:text="${site.rocktype}"></dd>
+                                </th:block>
+                               <!-- <dt>Orientation</dt>
                                 <dd>Nord-Ouest.</dd>
                                 <dt>rocher</dt>
                                 <dd>Calcaire.</dd>
@@ -37,24 +47,49 @@
                                 <dt>Cotation globale</dt>
                                 <dd>[7a+/6c].</dd>
                                 <dt>Date d'ouverture</dt>
-                                <dd>14/04/2016</dd>
+                                <dd>14/04/2016</dd>-->
                             </dl>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12 well">
+                <div class="col-lg-12 well" th:if="${site.presentation} != null">
                     <div class="container">
                         <div id="content" class="row">
                             <legend class="push border-bottom">Caractéristique</legend>
                             <dl class="panel dl-horizontal dl-pres">
                                 <dt>Présentation</dt>
-                                <dd>Très jolie voie ouverte en 1985 par P. Pérez et T. Saviozzy, et tracée dans le socle de la Candelle, secteur plutôt calme et sauvage, situé juste au-dessus de la calanque des pierres tombées. Elle propose une superbe escalade, soutenue, technique et exigeante (notamment dans L1) en dalles et murs raides, demandant une « bonne lecture » et nécessitant du « placement ». Elle se déroule sur un calcaire splendide, compact, et magnifiquement sculpté (gouttes d’eau, strates, trous, et micro-cannelures), et dans une remarquable ambiance aérienne. Les difficultés sont très marquées, longues et le plus souvent obligatoires malgré l’équipement excellent. Un itinéraire donc recommandé pour son cadre magnifique, le calcaire dément et pour l’intérêt permanent et continu de l’escalade. Un grand merci à Arsenii sans qui je ne me serai pas lancé dans cette p’tite aventure…</dd>
+                                <dd th:text="${site.presentation}"></dd>
                             </dl>
                         </div>
                     </div>
                 </div>
 
             </div>
+            <ul class="list-unstyled">
+                <li th:each="comment:${commentList}" class="media">
+                    <img src="/img/userLogo.jpg" class="mr-3" alt="...">
+                    <div class="row">
+                        <div class="media-body col-10">
+                            <h5 class="mt-0 mb-1" th:text="${comment.getUser().getName()}+' '+${comment.getUser().getFirstname()}"></h5>
+                            <p th:text="${comment.getText()}"></p>
+                        </div>
+                        <div class="col-2">
+                            <a th:href="@{'/editComment/'+${comment.id}}">Éditer</a><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <a th:href="@{'/deleteComment/'+${comment.id}}">Supprimer</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="media">
+                    <img src="/img/userLogo.jpg" class="mr-3" alt="...">
+                    <div class="media-body">
+                        <h5 class="mt-0 mb-1"> Ajouter un commentaire</h5>
+                        <form method="post" action="#" th:action="@{'/saveComment/'+${site.id}}" th:object="${comment}" class="col-lg-9 form-horizontal well">
+                            <textarea id="title" type="text" th:field="*{text}" class="form-control"></textarea>
+                            <button class="btn btn-primary" type="submit">Envoyer</button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
             <div class="border-cadre row">
                 <div class="col-12">
                     <legend class="push-white border-bottom">Action</legend>
@@ -62,10 +97,8 @@
                 <nav class="navbar navbar-expand">
                     <div class="container-fluid">
                         <ul class="nav navbar-nav">
-                            <li> <a class="link-ban" href="homepage.html">Ajouter un commentaire</a>&emsp;</li>
-                            <li >&emsp;<a class="link-ban" href="#">Sites Modifier les caractéristiques</a>&emsp;</li>
-                            <li >&emsp;<a class="link-ban" href="#">Partager</a>&emsp;</li>
-                            <li >&emsp;<a class="link-ban" href="#">demander le topo</a>&emsp;</li>
+                            <li><a th:href="@{'/putOfficial/'+${site.id}}">Taguer ce site</a></li>
+                            <li ><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><a th:href="@{'/unputOfficial/'+${site.id}}">Détaguer ce site</a></li>
                         </ul>
                     </div>
                 </nav>

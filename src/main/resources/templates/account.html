@@ -1,0 +1,148 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/head.html"></head>
+<body>
+<div class="container">
+    <div th:if="${id != '-1'}">
+        <header th:include="include/headerConnected.html"></header>
+    </div>
+    <div th:unless="${id != '-1'}">
+        <header th:include="include/header.html"></header>
+    </div>
+    <div class="row">
+        <div class="col-lg-9 form-horizontal well">
+            <legend class="h4 border-bottom">Mes données personnelles</legend>
+            <br>
+            <fieldset >
+                <legend class="push border-bottom">Identité</legend>
+                <div class="row form-group">
+                    <label for="name" class="offset-lg-2 offset-sm-2 col-3 control-label">Nom:</label>
+                    <div class="col-5">
+                        <p id="name" th:text="${userCurrent.name}"></p>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="firstname" class="offset-lg-2 offset-sm-2 col-3 control-label">Prénom:</label>
+                    <div class="col-5">
+                        <p id="firstname" th:text="${userCurrent.firstname}"></p>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="sex" class="offset-lg-2 offset-sm-2 col-3 control-label">Genre:</label>
+                    <div class="col-5">
+                        <div th:if="${userCurrent.sex} == true">
+                           <p id="sex" >Homme</p>
+                        </div>
+                        <div th:unless="${userCurrent.sex} == true">
+                            <p id="sex" >Femme</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="birth" class="offset-lg-2 offset-sm-2 col-3 control-label">Date de naissance:</label>
+                    <div class="col-5">
+                        <p id="birth" th:text="'à gérer'"></p>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend class="push border-bottom">Coordonnée</legend>
+                <div class="row form-group">
+                    <label for="address" class="offset-lg-2 offset-sm-2 col-3 control-label">Adresse:</label>
+                    <div class="col-5">
+                        <p id="address" th:text="${userCurrent.address}"></p>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="zip" class="offset-lg-2 offset-sm-2 col-3 control-label">Code Postale:</label>
+                    <div class="col-5">
+                        <p id="zip" th:text="${userCurrent.zip}"></p>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="mail" class="offset-lg-2 offset-sm-2 col-3 control-label">Prénom:</label>
+                    <div class="col-5">
+                        <p id="mail" th:text="${userCurrent.mail}"></p>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="phone" class="offset-lg-2 offset-sm-2 col-3 control-label">Téléphone:</label>
+                    <div class="col-5">
+                        <p id="phone" th:text="'0' + ${userCurrent.phone}"></p>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend class="push border-bottom">Compte</legend>
+                <div class="row form-group">
+                    <label for="pseudo" class="offset-lg-2 offset-sm-2 col-3 control-label">Identifiant:</label>
+                    <div class="col-5">
+                        <p id="pseudo" th:text="${userCurrent.pseudo}"></p>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="password" class="offset-lg-2 offset-sm-2 col-3 control-label">Password:</label>
+                    <div id="password" class="col-5">
+                        <th:block th:each="i:${#numbers.sequence(0,userCurrent.password.length()-1)}">
+                            <span>*</span>
+                        </th:block>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend class="push border-bottom">Niveau</legend>
+                <div class="row form-group">
+                    <label for="role" class="offset-lg-2 offset-sm-2 col-3 control-label">Type d'utilisateur:</label>
+                    <div class="col-5">
+                        <p id="role" th:text="${userCurrent.role}"></p>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="level" class="offset-lg-2 offset-sm-2 col-3 control-label">Niveau d'escalade:</label>
+                    <div class="col-5">
+                        <p id="level" th:text="'à gérer'"></p>
+                    </div>
+                </div>
+            </fieldset>
+            <a th:href="@{'/editUser/'+${userCurrent.id}}">Éditer</a>
+            <th:block th:if="${toposList.size()} > 0 ">
+                <div class="form-horizontal well">
+                    <legend class="h4 border-bottom">Mes Topos</legend>
+                    <br>
+                    <table class="offset-lg-1 col-lg-11 table table-striped table-dark">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Titre</th>
+                                <th scope="col">Auteur</th>
+                                <th scope="col">Disponibilité</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody th:with="count = 0">
+                            <tr th:each="topos:${toposList}" >
+                                <th th:with="count = ${count}+1"  scope="row"><span th:text="${count}"/></th>
+                                <td th:text="${topos.title}"></td>
+                                <td th:text="${topos.autor}"></td>
+                                <th:block th:if="${topos.available} == true">
+                                    <td>Oui</td>
+                                </th:block>
+                                <th:block th:unless="${topos.available} == true">
+                                    <td>Non</td>
+                                </th:block>
+                                <td>
+                                    <a th:href="@{'/editTopos/'+${topos.id}}">Éditer</a><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                    <a th:href="@{'/deleteTopos/'+${topos.id}}">Supprimer</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </th:block>
+        </div>
+        <nav th:include="include/highlight-site.html"  class="border-cadre col-lg-3"></nav>
+    </div>
+    <footer class="border-cadre row" th:include="include/footer.html"></footer>
+</div>
+
+</body>
+</html>
