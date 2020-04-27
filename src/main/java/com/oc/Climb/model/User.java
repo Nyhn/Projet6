@@ -59,7 +59,18 @@ public class User{
     }
 
     public User() {
+        this.pseudo = "";
+        this.password = "";
+        this.name = "";
+        this.firstname = "";
+        this.sex = false;
+        this.address = "";
+        this.zip = -1;
+        this.mail = "";
+        this.phone = -1;
+        this.role = Role.NOT_CONNECTED;
     }
+
 
     public User(String pseudo, String password, String name, String firstname, boolean sex, String address, int zip, int phone, String mail) {
         this.pseudo = pseudo;

@@ -2,12 +2,7 @@
 <head th:include="include/head.html"></head>
 <body>
 <div class="container">
-    <div th:if="${id != '-1'}">
-        <header th:include="include/headerConnected.html"></header>
-    </div>
-    <div th:unless="${id != '-1'}">
-        <header th:include="include/header.html"></header>
-    </div>
+    <header th:include="include/header.html"></header>
     <div class="row">
         <form method="post" action="#" th:action="@{/registerCheck}" th:object="${user}" class="col-lg-9 form-horizontal well">
             <legend class="h4 border-bottom">Formulaire de modification</legend>

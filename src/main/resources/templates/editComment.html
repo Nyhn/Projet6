@@ -2,12 +2,7 @@
 <head th:include="include/head.html"></head>
 <body>
 <div class="container">
-    <div th:if="${id != '-1'}">
-        <header th:include="include/headerConnected.html"></header>
-    </div>
-    <div th:unless="${id != '-1'}">
-        <header th:include="include/header.html"></header>
-    </div>
+    <header th:include="include/header.html"></header>
     <div class="row">
         <div class="media-body">
             <h5 class="mt-0 mb-1"> Ajouter un commentaire</h5>
