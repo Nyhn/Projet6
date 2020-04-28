@@ -1,12 +1,11 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org">
     <div class="row flex-nowrap justify-content-between align-items-center">
-        <span th:text=" ${userCurrent.role}"></span>
         <div class="col-4 pt-1">
-            <div th:if="${userCurrent.role != 'NOT_CONNECTED'}">
+            <div th:if="${userCurrent.role == userCurrent.role.NOT_CONNECTED}">
                 <a class="btn btn-sm btn-outline-secondary" href="register">S'inscrire</a>
             </div>
-            <div th:unless="${userCurrent.role != 'NOT_CONNECTED'}">
+            <div th:if="${userCurrent.role != userCurrent.role.NOT_CONNECTED}">
                 <a class="btn btn-sm btn-outline-secondary" href="/account">Mon Compte</a>
             </div>
 
@@ -15,10 +14,10 @@
             <a class="blog-header-logo" href="../"><img src="img/logo.png" alt="logo"></a>
         </div>
         <div class="col-4 d-flex justify-content-end align-items-center">
-            <div th:if="${userCurrent.role == 'NOT_CONNECTED'}">
+            <div th:if="${userCurrent.role == userCurrent.role.NOT_CONNECTED}">
                 <a class="btn btn-sm btn-outline-secondary" href="/logIn">Connexion</a>
             </div>
-            <div th:unless="${userCurrent.role == 'NOT_CONNECTED'}">
+            <div th:if="${userCurrent.role != userCurrent.role.NOT_CONNECTED}">
                 <a class="btn btn-sm btn-outline-secondary" href="/logOut">deconnexion</a>
             </div>
         </div>
@@ -34,7 +33,8 @@
                         <li >&emsp;<a class="link-ban" href="/library">Les topos</a>&emsp;</li>
                         <li >&emsp;<a class="link-ban" href="/addTopos">Ajouter un topos</a>&emsp;</li>
                         <li >&emsp;<a class="link-ban" href="/addSite">Ajouter un site</a>&emsp;</li>
-                        <li > <a class="link-ban" href="/catalog">Catalogue</a> </li>
+                        <li >  <a class="link-ban" href="/catalog">Catalogue</a> </li>
+                        <li th:if="${userCurrent.role == userCurrent.role.ADMINISTRATOR}">  <a class="link-ban" href="/user">Utilisateurs</a>  </li>
                     </ul>
                 </div>
             </nav>

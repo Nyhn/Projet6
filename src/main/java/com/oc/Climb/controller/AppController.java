@@ -20,6 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import javax.servlet.http.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @Controller
@@ -35,6 +37,7 @@ public class AppController {
 
     @Autowired
     private CommentService commentService;
+
     /* page général */
 
     @RequestMapping("/")
@@ -63,6 +66,7 @@ public class AppController {
         }
         Topos topos = new Topos();
         model.addAttribute("topos", topos);
+        model.addAttribute("userCurrent", userCurrent);
         return "addTopos";
     }
 
@@ -154,9 +158,18 @@ public class AppController {
 
 
     @RequestMapping(value = "/logInCheck", method = RequestMethod.POST)
-    public String viewLogInCheckPage(HttpServletResponse response, HttpServletRequest request, Model model, @ModelAttribute("user") User user) {
+    public String viewLogInCheckPage(HttpServletResponse response, HttpServletRequest request, Model model, @ModelAttribute("user") User user) throws NoSuchAlgorithmException {
         HttpSession session = request.getSession();
         User userCurrent = (User) session.getAttribute("userCurrent");
+        /* test d'encryptage */
+        System.out.println("Password avant : " + user.getPassword());
+        byte[] test = user.getPassword().getBytes();
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] hash = md.digest(test);
+        System.out.println("Password après : "+ hash);
+        if (hash == md.digest(test))
+            System.out.println("same");
+        /* fin test */
         if (userCurrent == null) {
             User userSearch = userService.findByPseudo(user.getPseudo());
             String message = "";
@@ -166,6 +179,7 @@ public class AppController {
                 return "logInCheck";
             }
             message = " Connexion échoué ! réessayer !";
+            model.addAttribute("userCurrent", userCurrent);
             model.addAttribute("message", message);
             return "redirect:/logIn";
         }
@@ -202,17 +216,26 @@ public class AppController {
     public String viewCatalogSearchPage(HttpServletRequest request,Model model,@ModelAttribute("search") SearchSiteForm searchSiteForm) {
         HttpSession session = request.getSession();
         User userCurrent = (User) session.getAttribute("userCurrent");
+        System.out.println(searchSiteForm.getNbSectors());
+        System.out.println(searchSiteForm.getLevel());
+        System.out.println(searchSiteForm.getOfficial());
+        System.out.println(searchSiteForm.getPlace());
         if(userCurrent == null) {
             userCurrent = new User();
         }
         List<Site> siteList;
         if(searchSiteForm.getPlace() != ""){
+            System.out.println(searchSiteForm.getPlace()+"ok");
             if(searchSiteForm.getOfficial()){
+                System.out.println(searchSiteForm.getOfficial()+"ok");
                 if(searchSiteForm.getNbSectors()!= -1){
+                    System.out.println(searchSiteForm.getNbSectors()+"ok");
                     if(searchSiteForm.getNbSectors()>=8) {
-                        if (searchSiteForm.getLevel() != Level.NOT_SELECTED)
-                            siteList = siteService.findSiteBySearchPlaceAndSectorSuppAndLevelAndOfficial(searchSiteForm.getPlace(),searchSiteForm.getLevel());
-                        else
+                        System.out.println(searchSiteForm.getNbSectors()+">8");
+                        if (searchSiteForm.getLevel() != Level.NOT_SELECTED) {
+                            System.out.println(searchSiteForm.getLevel()+"diff");
+                            siteList = siteService.findSiteBySearchPlaceAndSectorSuppAndLevelAndOfficial(searchSiteForm.getPlace(), searchSiteForm.getLevel());
+                        }else
                             siteList = siteService.findSiteBySearchPlaceAndSectorSuppAndOfficial(searchSiteForm.getPlace());
                     }
                     else{
@@ -388,6 +411,21 @@ public class AppController {
         return "account";
     }
 
+    @RequestMapping("/user")
+    public String viewUserPage(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User userCurrent = (User) session.getAttribute("userCurrent");
+        if(userCurrent == null) {
+            userCurrent = new User();
+            model.addAttribute("userCurrent", userCurrent);
+            return "redirect:/logIn";
+        }
+        List<User> userList = userService.listAll();
+        model.addAttribute("userCurrent", userCurrent);
+        model.addAttribute("userList",userList);
+        return "user";
+    }
+
     @RequestMapping(value = "/saveComment/{id}", method = RequestMethod.POST)
     public String saveComment(HttpServletRequest request, @ModelAttribute("comment") Comment comment, @PathVariable(name = "id") Long id) {
         comment.setId(null);
@@ -486,5 +524,13 @@ public class AppController {
         site.setOfficial(false);
         siteService.save(site);
         return "redirect:/climbingSite/{id}";
+    }
+
+    @RequestMapping(value = "/putMember/{id}", method = RequestMethod.GET)
+    public String putMember(@PathVariable(name = "id") Long id) {
+        User user= userService.get(id);
+        user.setRole(Role.MEMBER);
+        userService.save(user);
+        return "redirect:/user";
     }
 }

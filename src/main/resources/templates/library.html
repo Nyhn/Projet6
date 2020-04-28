@@ -19,7 +19,18 @@
                     </figure>
                 </section>
             </div>
-
+            <div th:if="${userCurrent.role != userCurrent.role.NOT_CONNECTED}" class="row">
+                <div class="col-12">
+                    <legend class="push-white border-bottom">Action</legend>
+                </div>
+                <nav class="navbar navbar-expand">
+                    <div class="container-fluid">
+                        <ul class="nav navbar-nav">
+                            <a class="link-ban" href="/addTopos">Ajouter un topo</a>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
         </div>
         <nav th:include="include/highlight-site.html"  class="border-cadre col-lg-3"></nav>
     </div>

@@ -68,14 +68,13 @@
                             <h5 class="mt-0 mb-1" th:text="${comment.getUser().getName()}+' '+${comment.getUser().getFirstname()}"></h5>
                             <p th:text="${comment.getText()}"></p>
                         </div>
-                        <span th:text="${userCurrent.getRole().equals('MEMBER')}"></span>
-                        <div th:if="${userCurrent.getRole().equals('MEMBER')}" class="col-2">
+                        <div th:if="${userCurrent.role == userCurrent.role.MEMBER or userCurrent.role == userCurrent.role.ADMINISTRATOR}" class="col-2">
                             <a th:href="@{'/editComment/'+${comment.id}}">Éditer</a><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             <a th:href="@{'/deleteComment/'+${comment.id}}">Supprimer</a>
                         </div>
                     </div>
                 </li>
-                <li class="media">
+                <li th:if="${userCurrent.role != userCurrent.role.NOT_CONNECTED}" class="media">
                     <img src="/img/userLogo.jpg" class="mr-3" alt="...">
                     <div class="media-body">
                         <h5 class="mt-0 mb-1"> Ajouter un commentaire</h5>
@@ -86,7 +85,7 @@
                     </div>
                 </li>
             </ul>
-            <div class="border-cadre row">
+            <div th:if="${userCurrent.role == userCurrent.role.MEMBER or userCurrent.role == userCurrent.role.ADMINISTRATOR }" class="border-cadre row">
                 <div class="col-12">
                     <legend class="push-white border-bottom">Action</legend>
                 </div>

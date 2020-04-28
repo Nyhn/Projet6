@@ -6,14 +6,33 @@
     <div class="row">
         <div class="col-lg-9  well">
             </form>
-            <form method="post"  th:action="@{/catalogSearch}" th:object="${search}" class="col-lg-9 form-horizontal well">
-                <div class="col-12 form-group">
-                    <input id="place" type="text" th:field="*{place}" class="input-sm form-control" placeholder="place">
-                    <input id="sector" type="number" th:field="*{nbSectors}" class="input-sm form-control" placeholder="sector">
-                    <input id="level" type="text" th:field="*{level}" class="input-sm form-control" placeholder="level">
-                    <input id="official" type="text" th:field="*{official}" class="input-sm form-control" placeholder="official">
-                    <button type="submit" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-eye-open"></span> Chercher</button>
-                </div>
+            <form method="post"  th:action="@{/catalogSearch}" th:object="${search}" class="form-horizontal well form-row">
+                    <div class="form-group col-md-4">
+                        <label for="place">Lieux</label>
+                        <input id="place" type="text" th:field="*{place}" class="input-sm form-control" placeholder="lieux ...">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="level">Niveau</label>
+                        <select id="level" th:field="*{level}" class="form-control">
+                            <option selected th:value="${T(com.oc.Climb.enums.Level).NOT_SELECTED}">tout niveau</option>
+                            <option th:value="${T(com.oc.Climb.enums.Level).DEBUTANT}">Débutant: 5a à 5c+</option>
+                            <option th:value="${T(com.oc.Climb.enums.Level).INTERMEDIAIRE}">Intermédiaire: 6a à 6c+</option>
+                            <option th:value="${T(com.oc.Climb.enums.Level).AVANCE}">Avancé: 7a à 7c+</option>
+                            <option th:value="${T(com.oc.Climb.enums.Level).EXPERT}">Expert: 8a à plus</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="sector">Nombre de secteur</label>
+                        <input id="sector" type="number" th:field="*{nbSectors}" class="input-sm form-control" placeholder="sector">
+                    </div>
+                    <div class="form-check col">
+                        <input id="official" type="checkbox" th:field="*{official}" class="form-check-input" placeholder="official">
+                        <label class="form-check-label" for="official">
+                            Validé par "Les amis de l'escalade"
+                        </label>
+                    </div>
+                <button type="submit" class="btn btn-primary btn-sm col-md-3"><span class="glyphicon glyphicon-eye-open"></span> Chercher</button>
+
             </form>
             <br>
             <div class="container">
@@ -24,7 +43,18 @@
                     </figure>
                 </section>
             </div>
-
+            <div th:if="${userCurrent.role != userCurrent.role.NOT_CONNECTED}" class="row">
+                <div class="col-12">
+                    <legend class="push-white border-bottom">Action</legend>
+                </div>
+                <nav class="navbar navbar-expand">
+                    <div class="container-fluid">
+                        <ul class="nav navbar-nav">
+                            <a class="link-ban" href="/addSite">Ajouter un site</a>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
         </div>
         <nav th:include="include/highlight-site.html"  class="border-cadre col-lg-3"></nav>
     </div>

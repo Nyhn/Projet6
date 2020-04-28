@@ -91,6 +91,8 @@ public class Site {
         this.official = official;
     }
 
+    @Enumerated(EnumType.STRING)
+    @Column(length = 13)
     public Level getLevel() {
         return level;
     }
