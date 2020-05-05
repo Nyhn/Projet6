@@ -2,6 +2,7 @@ package com.oc.Climb.model;
 import com.oc.Climb.enums.Role;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.Set;
 
 
@@ -14,7 +15,6 @@ public class User{
     private String name;
     private String firstname;
     private boolean sex;
-    //private Date birth;
     private String address;
     private int zip;
     private String mail;
@@ -41,10 +41,19 @@ public class User{
     private Set<Comment> commentCollection;
 
     @OneToMany(mappedBy ="user")
+    public Set<Booking> getBookingsCollection() {
+        return bookingsCollection;
+    }
+    public void setBookingsCollection(Set<Booking> bookingsCollection) {
+        this.bookingsCollection = bookingsCollection;
+    }
+
+    private Set<Booking> bookingsCollection;
+
+    @OneToMany(mappedBy ="user")
     public Set<Comment> getCommentCollection() {
         return commentCollection;
     }
-
     public void setCommentCollection(Set<Comment> commentCollection) {
         this.commentCollection = commentCollection;
     }
@@ -53,7 +62,6 @@ public class User{
     public Set<Topos> getToposCollection() {
         return toposCollection;
     }
-
     public void setToposCollection(Set<Topos> toposCollection) {
         this.toposCollection = toposCollection;
     }
@@ -125,12 +133,6 @@ public class User{
     public void setSex(boolean sex) {
         this.sex = sex;
     }
-
-//    public Date getBirth() {
-//        return birth;
-//    }
-//    public void setBirth(String birth) {
-//    }
 
     public String getAddress() {
         return address;

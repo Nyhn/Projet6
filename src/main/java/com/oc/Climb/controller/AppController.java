@@ -1,17 +1,16 @@
 package com.oc.Climb.controller;
 
-import com.oc.Climb.DAO.CommentService;
-import com.oc.Climb.DAO.SiteService;
-import com.oc.Climb.DAO.ToposService;
-import com.oc.Climb.DAO.UserService;
+import com.oc.Climb.DAO.*;
 import com.oc.Climb.enums.Level;
 import com.oc.Climb.enums.Role;
+import com.oc.Climb.enums.State;
 import com.oc.Climb.model.*;
 import com.oc.Climb.utils.SearchSiteForm;
 import com.oc.Climb.utils.SearchToposForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -37,6 +37,9 @@ public class AppController {
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private BookingService bookingService;
 
     /* page général */
 
@@ -85,7 +88,7 @@ public class AppController {
             model.addAttribute("listTopos", toposList);
         }
         model.addAttribute("userCurrent", userCurrent);
-        return "toposCheck";
+        return "redirect:/library";
     }
 
     @RequestMapping(value = "/editTopos/{id}")
@@ -126,6 +129,9 @@ public class AppController {
     @RequestMapping(value = "/registerCheck", method = RequestMethod.POST)
     public String viewRegisterCheckPageAndSaveUser(Model model, HttpServletRequest request, @ModelAttribute("userCurrent") User userCurrent) {
         userCurrent.setRole(Role.USER);
+        String hash = userCurrent.getPassword()+"6a[iY7d%5G"+userCurrent.getPseudo()+"3~4Dk/";
+        byte[] hashToByte = hash.getBytes();
+        userCurrent.setPassword(DigestUtils.md5DigestAsHex(hashToByte));
         userService.save(userCurrent);
         model.addAttribute("userCurrent", userCurrent);
         List<User> userList = userService.listAll();
@@ -161,19 +167,18 @@ public class AppController {
     public String viewLogInCheckPage(HttpServletResponse response, HttpServletRequest request, Model model, @ModelAttribute("user") User user) throws NoSuchAlgorithmException {
         HttpSession session = request.getSession();
         User userCurrent = (User) session.getAttribute("userCurrent");
-        /* test d'encryptage */
-        System.out.println("Password avant : " + user.getPassword());
-        byte[] test = user.getPassword().getBytes();
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        byte[] hash = md.digest(test);
-        System.out.println("Password après : "+ hash);
-        if (hash == md.digest(test))
-            System.out.println("same");
+        /* encryptage */
+
+        String hash = user.getPassword()+"6a[iY7d%5G"+user.getPseudo()+"3~4Dk/";
+        byte[] hashToByte = hash.getBytes();
+        String passwordEncrypted = DigestUtils.md5DigestAsHex(hashToByte);
+
         /* fin test */
         if (userCurrent == null) {
             User userSearch = userService.findByPseudo(user.getPseudo());
             String message = "";
-            if (user.getPassword().equals(userSearch.getPassword())) {
+            if (passwordEncrypted.equals(userSearch.getPassword())) {
+                System.out.println("MDP egal");
                 model.addAttribute("userCurrent", userSearch);
                 session.setAttribute("userCurrent", userSearch);
                 return "logInCheck";
@@ -407,7 +412,11 @@ public class AppController {
         }
         model.addAttribute("userCurrent", userCurrent);
         List<Topos> toposList = toposService.findToposByUser(userCurrent);
+        List<Booking> bookingList = bookingService.findByUserBookingRequired(userCurrent);
+        List<Booking> historical = bookingService.findByUserBooking(userCurrent);
         model.addAttribute("toposList", toposList);
+        model.addAttribute("bookingList", bookingList);
+        model.addAttribute("historical", historical);
         return "account";
     }
 
@@ -467,22 +476,24 @@ public class AppController {
         ModelAndView modelAndView = new ModelAndView("climbingTopos");
         Topos toposSelect = toposService.get(id);
         modelAndView.addObject("topos", toposSelect);
+        modelAndView.addObject("userCurrent", userCurrent);
 
         return modelAndView;
     }
 
     @RequestMapping(value = "/editComment/{id}")
-    public ModelAndView showEditCommentPage(@PathVariable(name = "id") Long id) {
+    public ModelAndView showEditCommentPage(HttpServletRequest request,@PathVariable(name = "id") Long id) {
         ModelAndView modelAndView = new ModelAndView("editComment");
-
+        HttpSession session = request.getSession();
+        User userCurrent = (User) session.getAttribute("userCurrent");
         Comment comment = commentService.get(id);
         modelAndView.addObject("comment", comment);
-
+        modelAndView.addObject("userCurrent", userCurrent);
         return modelAndView;
     }
 
     @RequestMapping(value = "/modifComment/{id}", method = RequestMethod.POST)
-    public String modifComment(HttpServletRequest request, @ModelAttribute("comment") Comment comment, @PathVariable(name = "id") Long id) {
+    public String modifComment(@ModelAttribute("comment") Comment comment, @PathVariable(name = "id") Long id) {
         commentService.save(comment);
         Long idSite = comment.getSite().getId();
         return "redirect:/climbingSite/" + idSite;
@@ -512,9 +523,13 @@ public class AppController {
         }
         model.addAttribute("userCurrent", userCurrent);
         Topos topos = toposService.get(id);
-        topos.setUserBooking(userCurrent);
-        topos.setAvailable(false);
-        toposService.save(topos);
+        Booking booking = new Booking();
+        booking.setState(State.REQUIRED);
+        booking.setTopos(topos);
+        booking.setUser(userCurrent);
+        booking.setDate(new Date());
+        bookingService.save(booking);
+
         return "redirect:/climbingTopos/{id}";
     }
 
@@ -532,5 +547,22 @@ public class AppController {
         user.setRole(Role.MEMBER);
         userService.save(user);
         return "redirect:/user";
+    }
+
+    @RequestMapping(value = "/acceptBooking/{id}", method = RequestMethod.GET)
+    public String acceptBooking(@PathVariable(name = "id") Long id) {
+        Booking booking= bookingService.get(id);
+        booking.getTopos().setAvailable(false);
+        booking.setState(State.ACCEPTED);
+        bookingService.save(booking);
+        return "redirect:/account";
+    }
+
+    @RequestMapping(value = "/refusedBooking/{id}", method = RequestMethod.GET)
+    public String refusedBooking(@PathVariable(name = "id") Long id) {
+        Booking booking= bookingService.get(id);
+        booking.setState(State.REFUSE);
+        bookingService.save(booking);
+        return "redirect:/account";
     }
 }

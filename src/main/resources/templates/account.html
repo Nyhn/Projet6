@@ -4,7 +4,7 @@
 <div class="container">
     <header th:include="include/header.html"></header>
     <div class="row">
-        <div class="col-lg-9 form-horizontal well">
+        <div class="col-lg form-horizontal well">
             <legend class="h4 border-bottom">Mes données personnelles</legend>
             <br>
             <fieldset >
@@ -91,12 +91,6 @@
                         <p id="role" th:text="${userCurrent.role}"></p>
                     </div>
                 </div>
-                <div class="row form-group">
-                    <label for="level" class="offset-lg-2 offset-sm-2 col-3 control-label">Niveau d'escalade:</label>
-                    <div class="col-5">
-                        <p id="level" th:text="'à gérer'"></p>
-                    </div>
-                </div>
             </fieldset>
             <a th:href="@{'/editUser/'+${userCurrent.id}}">Éditer</a>
             <th:block th:if="${toposList.size()} > 0 ">
@@ -132,9 +126,57 @@
                         </tbody>
                     </table>
                 </div>
+                <a href="/addTopos">Ajouter un topos</a>
+                <th:block th:if="${bookingList.size()} > 0 ">
+                    <legend class="h4 border-bottom">Les demandes de réservations</legend>
+                    <br>
+                    <table class="offset-lg-1 col-lg-11 table table-striped table-dark">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Titre</th>
+                            <th scope="col">locataire</th>
+                            <th scope="col">État</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody th:with="count = 0">
+                        <tr th:each="booking:${bookingList}" >
+                            <th th:with="count = ${count}+1"  scope="row"><span th:text="${count}"/></th>
+                            <td th:text="${booking.topos.title}"></td>
+                            <td th:text="${booking.user.name} +' '+ ${booking.user.firstname}"></td>
+                            <td th:text="${booking.state}"></td>
+                            <td>
+                                <a th:href="@{'/acceptBooking/'+${booking.id}}">Accepter</a><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <a th:href="@{'/refusedBooking/'+${booking.id}}">Refuser</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </th:block>
+        <th:block th:if="${bookingList.size()} > 0 ">
+            <legend class="h4 border-bottom">Historique de réservations</legend>
+            <br>
+            <table class="offset-lg-1 col-lg-11 table table-striped table-dark">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Titre</th>
+                    <th scope="col">locataire</th>
+                    <th scope="col">État</th>
+                </tr>
+                </thead>
+                <tbody th:with="count = 0">
+                <tr th:each="booking:${historical}" >
+                    <th th:with="count = ${count}+1"  scope="row"><span th:text="${count}"/></th>
+                    <td th:text="${booking.topos.title}"></td>
+                    <td th:text="${booking.user.name} +' '+ ${booking.user.firstname}"></td>
+                    <td th:text="${booking.state}"></td>
+                </tr>
+                </tbody>
+            </table>
             </th:block>
         </div>
-        <nav th:include="include/highlight-site.html"  class="border-cadre col-lg-3"></nav>
     </div>
     <footer class="border-cadre row" th:include="include/footer.html"></footer>
 </div>

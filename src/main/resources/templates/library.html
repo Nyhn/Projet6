@@ -4,7 +4,7 @@
 <div class="container">
     <header th:include="include/header.html"></header>
     <div class="row">
-        <div class="col-lg-9  well">
+        <div class="col-lg  well">
             <form method="post"  th:action="@{/librarySearch}" th:object="${search}" class="col-lg-9 form-horizontal well">
                 <div class="col-12 form-group">
                     <input id="toposTitleOrAutor" type="text" th:field="*{titleOrAutor}" class="input-sm form-control" placeholder="Recherche">
@@ -32,7 +32,6 @@
                 </nav>
             </div>
         </div>
-        <nav th:include="include/highlight-site.html"  class="border-cadre col-lg-3"></nav>
     </div>
     <footer class="border-cadre row" th:include="include/footer.html"></footer>
 </div>

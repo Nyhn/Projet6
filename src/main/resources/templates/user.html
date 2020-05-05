@@ -4,7 +4,7 @@
 <div class="container">
     <header th:include="include/header.html"></header>
     <div class="row">
-        <div class="col-lg-9 form-horizontal well">
+        <div class="col-lg form-horizontal well">
             <th:block th:if="${userList.size()} > 0 ">
                 <div class="form-horizontal well">
                     <legend class="h4 border-bottom">Les utilisateurs</legend>
@@ -43,7 +43,6 @@
                 </div>
             </th:block>
         </div>
-        <nav th:include="include/highlight-site.html"  class="border-cadre col-lg-3"></nav>
     </div>
     <footer class="border-cadre row" th:include="include/footer.html"></footer>
 </div>

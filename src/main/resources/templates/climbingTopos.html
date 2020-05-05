@@ -4,11 +4,11 @@
 <div class="container">
     <header th:include="include/header.html"></header>
     <div class="row">
-        <div class="col-lg-12 well">
+        <div class="col-lg well">
             <legend class="h4 border-bottom" th:text="${topos.title}"></legend>
             <div class="row">
                 <div class="col-lg-6">
-                    <img class="img-site" th:src="${topos.image}" th:alt="${topos.id}">
+                    <img class="img-site img-thumbnail" th:src="${topos.image}" th:alt="${topos.id}">
                 </div>
                 <div class="col-lg-6">
                     <div class="container">
@@ -30,7 +30,7 @@
                     </div>
                 </div>
             </div>
-            <div class="border-cadre row">
+            <div th:if="${userCurrent.role != userCurrent.role.NOT_CONNECTED}" class="border-cadre row">
                 <div class="col-12">
                     <legend class="push-white border-bottom">Action</legend>
                 </div>

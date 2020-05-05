@@ -4,7 +4,7 @@
 <div class="container">
     <header th:include="include/header.html"></header>
     <div class="row">
-        <form method="post" action="#" th:action="@{/logInCheck}" th:object="${userCurrent}" class="col-lg-9 form-horizontal well">
+        <form method="post" action="#" th:action="@{/logInCheck}" th:object="${userCurrent}" class="col-lg form-horizontal well">
             <legend class="h4 border-bottom">Connexion</legend>
             <br>
             <span class="align-content-center" th:text="${message}"/>
@@ -32,7 +32,6 @@
                 </fieldset>
             </div>
         </form>
-        <nav th:include="include/highlight-site.html"  class="border-cadre col-lg-3"></nav>
     </div>
     <footer class="border-cadre row" th:include="include/footer.html"></footer>
 </div>

@@ -113,7 +113,6 @@ public class Site {
     public Set<Comment> getCommentCollection() {
         return commentCollection;
     }
-
     public void setCommentCollection(Set<Comment> commentCollection) {
         this.commentCollection = commentCollection;
     }

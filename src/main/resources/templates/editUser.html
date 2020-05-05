@@ -4,7 +4,7 @@
 <div class="container">
     <header th:include="include/header.html"></header>
     <div class="row">
-        <form method="post" action="#" th:action="@{/registerCheck}" th:object="${user}" class="col-lg-9 form-horizontal well">
+        <form method="post" action="#" th:action="@{/registerCheck}" th:object="${user}" class="col-lg form-horizontal well">
             <legend class="h4 border-bottom">Formulaire de modification</legend>
             <br>
             <div class="row form-group">
@@ -116,7 +116,6 @@
             </div>
             <button class="btn btn-primary offset-9" type="submit">Envoyer</button>
         </form>
-        <nav th:include="include/highlight-site.html"  class="border-cadre col-lg-3"></nav>
     </div>
     <footer class="border-cadre row" th:include="include/footer.html"></footer>
 </div>

@@ -1,6 +1,7 @@
 package com.oc.Climb.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Topos {
@@ -9,21 +10,19 @@ public class Topos {
     private String autor;
     private boolean available;
     private String image;
-
+    private Set<Booking> bookingsCollection;
     private User user;
-    private User userBooking;
+
 
     public Topos() {
     }
 
-    @ManyToOne
-    @JoinColumn(name="id_userbooking")
-    public User getUserBooking() {
-        return userBooking;
+    @OneToMany(mappedBy ="topos")
+    public Set<Booking> getBookingsCollection() {
+        return bookingsCollection;
     }
-
-    public void setUserBooking(User userBooking) {
-        this.userBooking = userBooking;
+    public void setBookingsCollection(Set<Booking> bookingsCollection) {
+        this.bookingsCollection = bookingsCollection;
     }
 
     @ManyToOne
@@ -31,7 +30,6 @@ public class Topos {
     public User getUser() {
         return user;
     }
-
     public void setUser(User user) {
         this.user = user;
     }
@@ -41,7 +39,6 @@ public class Topos {
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -49,7 +46,6 @@ public class Topos {
     public String getTitle() {
         return title;
     }
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -57,7 +53,6 @@ public class Topos {
     public String getAutor() {
         return autor;
     }
-
     public void setAutor(String autor) {
         this.autor = autor;
     }
@@ -65,7 +60,6 @@ public class Topos {
     public boolean isAvailable() {
         return available;
     }
-
     public void setAvailable(boolean available) {
         this.available = available;
     }
@@ -73,7 +67,6 @@ public class Topos {
     public String getImage() {
         return image;
     }
-
     public void setImage(String image) {
         this.image = image;
     }
