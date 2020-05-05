@@ -1,6 +1,9 @@
 package com.oc.Climb.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.Set;
 
 @Entity
@@ -12,6 +15,7 @@ public class Topos {
     private String image;
     private Set<Booking> bookingsCollection;
     private User user;
+    private Date date;
 
 
     public Topos() {
@@ -69,5 +73,13 @@ public class Topos {
     }
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

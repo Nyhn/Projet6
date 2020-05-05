@@ -21,6 +21,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -75,7 +78,8 @@ public class AppController {
 
     @RequestMapping(value = "/toposCheck", method = RequestMethod.POST)
     public String saveToposAndViewToposCheckPage(HttpServletRequest request, @ModelAttribute("topos") Topos topos, Model model) {
-
+        System.out.println(LocalDate.now());
+        System.out.println(topos.getDate());
         HttpSession session = request.getSession();
         User userCurrent = (User) session.getAttribute("userCurrent");
         if(userCurrent == null) {
@@ -128,6 +132,14 @@ public class AppController {
 
     @RequestMapping(value = "/registerCheck", method = RequestMethod.POST)
     public String viewRegisterCheckPageAndSaveUser(Model model, HttpServletRequest request, @ModelAttribute("userCurrent") User userCurrent) {
+        if(userCurrent.getPassword() == request.getAttribute("password2"))
+        {
+            System.out.println("ok");
+        }
+        if(userCurrent.getMail() == request.getAttribute("mail2"))
+        {
+            System.out.println("ok");
+        }
         userCurrent.setRole(Role.USER);
         String hash = userCurrent.getPassword()+"6a[iY7d%5G"+userCurrent.getPseudo()+"3~4Dk/";
         byte[] hashToByte = hash.getBytes();

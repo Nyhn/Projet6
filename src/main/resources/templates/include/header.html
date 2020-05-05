@@ -31,10 +31,7 @@
                         <li> <a class="link-ban" href="../">Accueil</a>&emsp;</li>
                         <li >&emsp;<a class="link-ban" href="/catalog">les sites d'escalade</a>&emsp;</li>
                         <li >&emsp;<a class="link-ban" href="/library">Les topos</a>&emsp;</li>
-                        <li >&emsp;<a class="link-ban" href="/addTopos">Ajouter un topos</a>&emsp;</li>
-                        <li >&emsp;<a class="link-ban" href="/addSite">Ajouter un site</a>&emsp;</li>
-                        <li >  <a class="link-ban" href="/catalog">Catalogue</a> </li>
-                        <li th:if="${userCurrent.role == userCurrent.role.ADMINISTRATOR}">  <a class="link-ban" href="/user">Utilisateurs</a>  </li>
+                        <li th:if="${userCurrent.role == userCurrent.role.ADMINISTRATOR}">&emsp;<a class="link-ban" href="/user">Utilisateurs</a>  </li>
                     </ul>
                 </div>
             </nav>
