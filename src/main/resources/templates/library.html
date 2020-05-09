@@ -13,7 +13,7 @@
             </form>
             <div class="container">
                 <section class="row">
-                    <figure th:each="topos : ${toposList}" class="col-pad col-xs-6 col-sm-6 col-md-4">
+                    <figure th:each="topos : ${toposList}" class="col-pad col-xs-6 col-sm-6 col-md-3">
                         <a th:href="@{'/climbingTopos/'+${topos.id}}" class="link-img"><img class="row img-thumbnail" th:src="${topos.image}" alt="climb">
                             <figcaption class="row"><span th:text="${topos.title}"/></figcaption></a>
                     </figure>

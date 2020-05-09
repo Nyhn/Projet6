@@ -3,6 +3,8 @@ package com.oc.Climb.model;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.util.Set;
 
@@ -16,9 +18,11 @@ public class Topos {
     private Set<Booking> bookingsCollection;
     private User user;
     private Date date;
+    private String description;
 
 
     public Topos() {
+        this.date =  Date.valueOf("0001-01-01");
     }
 
     @OneToMany(mappedBy ="topos")
@@ -78,8 +82,14 @@ public class Topos {
     public Date getDate() {
         return date;
     }
-
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

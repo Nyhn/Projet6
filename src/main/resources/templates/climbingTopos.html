@@ -21,9 +21,13 @@
                                     <dt>Auteur</dt>
                                     <dd th:text="${topos.autor}"></dd>
                                 </th:block>
-                                <th:block th:if="${topos.available} != null">
-                                    <dt>Disponible</dt>
-                                    <dd th:text="${topos.available}"></dd>
+                                <th:block th:if="${topos.date} != null">
+                                    <dt>Date de parution</dt>
+                                    <dd th:text="${topos.date}"></dd>
+                                </th:block>
+                                <th:block th:if="${topos.description} != null">
+                                    <dt>Description</dt>
+                                    <dd th:text="${topos.description}"></dd>
                                 </th:block>
                             </dl>
                         </div>

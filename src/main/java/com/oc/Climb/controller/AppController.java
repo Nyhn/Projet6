@@ -7,10 +7,12 @@ import com.oc.Climb.enums.State;
 import com.oc.Climb.model.*;
 import com.oc.Climb.utils.SearchSiteForm;
 import com.oc.Climb.utils.SearchToposForm;
+import com.oc.Climb.utils.ToposFormCheck;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.DigestUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import javax.servlet.http.*;
+import javax.validation.Valid;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
@@ -61,7 +64,7 @@ public class AppController {
     }
     /* page qui manipule topos */
 
-    @RequestMapping("/addTopos")
+    @RequestMapping(value ="/addTopos", method = RequestMethod.GET)
     public String viewAddToposPage(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         User userCurrent = (User) session.getAttribute("userCurrent");
@@ -71,6 +74,8 @@ public class AppController {
             return "redirect:/logIn";
         }
         Topos topos = new Topos();
+        ToposFormCheck toposFormCheck = new ToposFormCheck();
+        model.addAttribute("toposFormCheck",toposFormCheck);
         model.addAttribute("topos", topos);
         model.addAttribute("userCurrent", userCurrent);
         return "addTopos";
@@ -78,14 +83,25 @@ public class AppController {
 
     @RequestMapping(value = "/toposCheck", method = RequestMethod.POST)
     public String saveToposAndViewToposCheckPage(HttpServletRequest request, @ModelAttribute("topos") Topos topos, Model model) {
-        System.out.println(LocalDate.now());
-        System.out.println(topos.getDate());
+
         HttpSession session = request.getSession();
         User userCurrent = (User) session.getAttribute("userCurrent");
         if(userCurrent == null) {
             userCurrent = new User();
+            model.addAttribute("userCurrent", userCurrent);
+            return "redirect:/logIn";
         }
         else{
+            ToposFormCheck toposFormCheck = new ToposFormCheck();
+            topos = toposFormCheck.evaluate(topos);
+            if (!toposFormCheck.validate()) {
+                model.addAttribute("toposFormCheck",toposFormCheck);
+                model.addAttribute("topos", topos);
+                model.addAttribute("userCurrent", userCurrent);
+                toposFormCheck.describe();
+                return "addTopos";
+            }
+            topos.setDate(toposFormCheck.dateCheck(topos.getDate()));
             topos.setUser(userCurrent);
             toposService.save(topos);
             List<Topos> toposList = toposService.findToposByUser(userCurrent);
@@ -156,6 +172,9 @@ public class AppController {
     @RequestMapping(value = "/editUser/{id}")
     public ModelAndView showEditUserPage(HttpServletRequest request,@PathVariable(name = "id") Long id) {
         ModelAndView modelAndView = new ModelAndView("editUser");
+        HttpSession session = request.getSession();
+        User userCurrent = (User) session.getAttribute("userCurrent");
+        modelAndView.addObject("userCurrent", userCurrent);
         User user = userService.get(id);
         modelAndView.addObject("user", user);
         return modelAndView;
