@@ -99,9 +99,6 @@ public class User{
         return pseudo;
     }
     public void setPseudo(String pseudo){
-        if(pseudo.length() > 50){}
-
-        else
             this.pseudo = pseudo;
     }
 

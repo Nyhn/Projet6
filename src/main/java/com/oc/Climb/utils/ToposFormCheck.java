@@ -56,7 +56,6 @@ public class ToposFormCheck {
     }
 
     public void titleCheck(String title){
-        System.out.println(title.length());
         if(title.length() == 0)
             titleEmpty = true;
         if(title.length() <= 3 || title.length() >= 500)
@@ -92,42 +91,19 @@ public class ToposFormCheck {
     public boolean isTitleSize() {
         return titleSize;
     }
-    public void setTitleSize(boolean titleSize) {
-        this.titleSize = titleSize;
-    }
-
     public boolean isTitleEmpty() {
         return titleEmpty;
     }
-    public void setTitleEmpty(boolean titleEmpty) {
-        this.titleEmpty = titleEmpty;
-    }
-
     public boolean isAutorSize() {
         return autorSize;
     }
-    public void setAutorSize(boolean autorSize) {
-        this.autorSize = autorSize;
-    }
-
     public boolean isAutorEmpty() {
         return autorEmpty;
     }
-    public void setAutorEmpty(boolean autorEmpty) {
-        this.autorEmpty = autorEmpty;
-    }
-
     public boolean isImageSize() {
         return imageSize;
     }
-    public void setImageSize(boolean imageSize) {
-        this.imageSize = imageSize;
-    }
-
     public boolean isDescriptionSize() {
         return descriptionSize;
-    }
-    public void setDescriptionSize(boolean descriptionSize) {
-        this.descriptionSize = descriptionSize;
     }
 }
