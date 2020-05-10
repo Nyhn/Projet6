@@ -10,7 +10,7 @@
             <fieldset >
                 <legend class="push border-bottom">Identité</legend>
                 <div class="row form-group">
-                    <label for="name" class="offset-lg-1 offset-sm-1 col-2 control-label">Nom:</label>
+                    <label for="name" class="offset-lg-1 offset-sm-1 col-2 control-label">Nom<span class="text-primary">*</span>:</label>
                     <div class="col-7">
                         <input id="name" type="text" th:field="*{name}" class="form-control" placeholder="(de 3 à 100 caractères)">
                         <div th:if="${userFormCheck.isNameSize()}">
@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                    <label for="firstname" class="offset-lg-1 offset-sm-1 col-2 control-label">Prénom:</label>
+                    <label for="firstname" class="offset-lg-1 offset-sm-1 col-2 control-label">Prénom<span class="text-primary">*</span>:</label>
                     <div class="col-7">
                         <input id="firstname"  type="text" th:field="*{firstname}"class="form-control" placeholder="(de 3 à 100 caractères)">
                         <div th:if="${userFormCheck.isFirstnameSize()}">
@@ -46,7 +46,7 @@
             <fieldset>
                 <legend class="push border-bottom">Coordonnée</legend>
                 <div class="row form-group">
-                    <label for="address" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Adresse postale: </label>
+                    <label for="address" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Adresse postale<span class="text-primary">*</span>: </label>
                     <div class="col-xs-7 col-sm-7 col-lg-7">
                         <input id="address" th:field="*{address}" type="text" class="form-control" placeholder="(de 3 à 500 caractères)">
                         <div th:if="${userFormCheck.isAddressSize()}">
@@ -56,7 +56,7 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                    <label for="ZIP" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">code postale: </label>
+                    <label for="ZIP" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">code postale<span class="text-primary">*</span>: </label>
                     <div class="col-xs-7 col-sm-7 col-lg-7">
                         <input id="ZIP" th:field="*{zip}" type="text" class="form-control">
                         <div th:if="${userFormCheck.isZipSize()}">
@@ -66,7 +66,7 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                    <label for="mail" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Adresse e-mail: </label>
+                    <label for="mail" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Adresse e-mail<span class="text-primary">*</span>: </label>
                     <div class="col-xs-7 col-sm-7 col-lg-7">
                         <input id="mail" th:field="*{mail}" type="email" class="form-control" placeholder="(de 3 à 100 caractères)">
                         <p th:if="${userFormCheck.isMailExisting()}" class="text-danger">Un utilisateur est déjà enregistrer avec cette e-mail.</p>
@@ -79,7 +79,7 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                    <label for="mail2" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Vérification Adresse e-mail:</label>
+                    <label for="mail2" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Vérification Adresse e-mail<span class="text-primary">*</span>:</label>
                     <div class="col-xs-7 col-sm-7 col-lg-7">
                         <input id="mail2" name="mail2" type="email" class="form-control" placeholder="Retapez la même adresse e-mail">
                         <th:block th:unless="${userFormCheck.isMailExisting()}" >
@@ -91,7 +91,7 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                    <label for="phone" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Téléphone: </label>
+                    <label for="phone" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Téléphone<span class="text-primary">*</span>: </label>
                     <div class="col-xs-7 col-sm-7 col-lg-7">
                         <input id="phone" th:field="*{phone}" type="tel" class="form-control">
                         <div th:if="${userFormCheck.isPhoneSize()}">
@@ -104,7 +104,7 @@
             <fieldset>
                 <legend class="push border-bottom">Compte</legend>
                 <div class="row form-group">
-                    <label for="pseudo" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Pseudo: </label>
+                    <label for="pseudo" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Pseudo<span class="text-primary">*</span>: </label>
                     <div class="col-xs-7 col-sm-7 col-lg-7">
                         <input id="pseudo" th:field="*{pseudo}" type="text" class="form-control" placeholder="(de 3 à 100 caractères)">
                         <p th:if="${userFormCheck.isPseudoExisting()}" class="text-danger">Un utilisateur est déjà enregistrer avec ce pseudo.</p>
@@ -117,7 +117,7 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                    <label for="password" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Mot de passe: </label>
+                    <label for="password" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Mot de passe<span class="text-primary">*</span>: </label>
                     <div class="col-xs-7 col-sm-7 col-lg-7">
                         <input id="password" th:field="*{password}" type="password" class="form-control" placeholder="(de 3 à 100 caractères)">
                         <div th:if="${userFormCheck.isPasswordSize()}">
@@ -127,7 +127,7 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                    <label for="password2" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Vérification Mot de passe: </label>
+                    <label for="password2" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Vérification Mot de passe<span class="text-primary">*</span>: </label>
                     <div class="col-xs-7 col-sm-7 col-lg-7">
                         <input id="password2" name="password2" type="password" class="form-control" placeholder="Retapez le même mot de passe">
                         <p th:if="${userFormCheck.isPasswordDifferent()}" class="text-danger">Les deux champs sont différents</p>
@@ -138,6 +138,7 @@
                 </div>
             </fieldset>
             <button class="btn btn-primary offset-9" type="submit">Envoyer</button>
+            <p class="text-primary">Champ obligatoire *</p>
         </form>
     </div>
     <footer class="border-cadre row" th:include="include/footer.html"></footer>

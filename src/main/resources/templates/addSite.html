@@ -10,13 +10,13 @@
             <fieldset >
                 <legend class="push border-bottom">INFO1</legend>
                 <div class="row form-group">
-                    <label for="name" class="offset-lg-1 offset-sm-1 col-2 control-label">Nom:</label>
+                    <label for="name" class="offset-lg-1 offset-sm-1 col-2 control-label">Nom<span class="text-primary">*</span>:</label>
                     <div class="col-7">
                         <input id="name" type="text" th:field="*{name}" class="form-control">
                     </div>
                 </div>
                 <div class="row form-group">
-                    <label for="place" class="offset-lg-1 offset-sm-1 col-2 control-label">Lieu:</label>
+                    <label for="place" class="offset-lg-1 offset-sm-1 col-2 control-label">Lieu<span class="text-primary">*</span>:</label>
                     <div class="col-7">
                         <input id="place"  type="text" th:field="*{place}"class="form-control">
                     </div>
@@ -50,7 +50,8 @@
                     </div>
                 </div>
             </fieldset>
-                        <button class="btn btn-primary offset-9" type="submit">Envoyer</button>
+            <button class="btn btn-primary offset-9" type="submit">Envoyer</button>
+            <p class="text-primary">Champ obligatoire *</p>
         </form>
     </div>
     <footer class="border-cadre row" th:include="include/footer.html"></footer>
