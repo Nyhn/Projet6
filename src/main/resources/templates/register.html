@@ -12,13 +12,21 @@
                 <div class="row form-group">
                     <label for="name" class="offset-lg-1 offset-sm-1 col-2 control-label">Nom:</label>
                     <div class="col-7">
-                        <input id="name" type="text" th:field="*{name}" class="form-control">
+                        <input id="name" type="text" th:field="*{name}" class="form-control" placeholder="(de 3 à 100 caractères)">
+                        <div th:if="${userFormCheck.isNameSize()}">
+                            <p th:if="${userFormCheck.isNameEmpty()}" class="text-danger">Le champ Nom est obligatoire.</p>
+                            <p th:unless="${userFormCheck.isNameEmpty()}" class="text-danger">Attention! Le champ doit être compris entre 3 à 100 caractères.</p>
+                        </div>
                     </div>
                 </div>
                 <div class="row form-group">
                     <label for="firstname" class="offset-lg-1 offset-sm-1 col-2 control-label">Prénom:</label>
                     <div class="col-7">
-                        <input id="firstname"  type="text" th:field="*{firstname}"class="form-control">
+                        <input id="firstname"  type="text" th:field="*{firstname}"class="form-control" placeholder="(de 3 à 100 caractères)">
+                        <div th:if="${userFormCheck.isFirstnameSize()}">
+                            <p th:if="${userFormCheck.isFirstnameEmpty()}" class="text-danger">Le champ Prénom est obligatoire.</p>
+                            <p th:unless="${userFormCheck.isFirstnameEmpty()}" class="text-danger">Attention! Le champ doit être compris entre 3 à 100 caractères.</p>
+                        </div>
                     </div>
                 </div>
                 <div class="row form-group">
@@ -40,33 +48,56 @@
                 <div class="row form-group">
                     <label for="address" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Adresse postale: </label>
                     <div class="col-xs-7 col-sm-7 col-lg-7">
-                        <input id="address" th:field="*{address}" type="text" class="form-control">
+                        <input id="address" th:field="*{address}" type="text" class="form-control" placeholder="(de 3 à 500 caractères)">
+                        <div th:if="${userFormCheck.isAddressSize()}">
+                            <p th:if="${userFormCheck.isAddressEmpty()}" class="text-danger">Le champ Adresse est obligatoire.</p>
+                            <p th:unless="${userFormCheck.isAddressEmpty()}" class="text-danger">Attention! Le champ doit être compris entre 3 à 500 caractères.</p>
+                        </div>
                     </div>
                 </div>
                 <div class="row form-group">
                     <label for="ZIP" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">code postale: </label>
                     <div class="col-xs-7 col-sm-7 col-lg-7">
                         <input id="ZIP" th:field="*{zip}" type="text" class="form-control">
+                        <div th:if="${userFormCheck.isZipSize()}">
+                            <p th:if="${userFormCheck.isZipEmpty()}" class="text-danger">Le champ Code Postale est obligatoire.</p>
+                            <p th:unless="${userFormCheck.isZipEmpty()}" class="text-danger">Attention! Le champ doit être composer de 5 chiffres (ex : 13005).</p>
+                        </div>
                     </div>
                 </div>
                 <div class="row form-group">
                     <label for="mail" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Adresse e-mail: </label>
                     <div class="col-xs-7 col-sm-7 col-lg-7">
-                        <input id="mail" th:field="*{mail}" type="email" class="form-control">
+                        <input id="mail" th:field="*{mail}" type="email" class="form-control" placeholder="(de 3 à 100 caractères)">
+                        <p th:if="${userFormCheck.isMailExisting()}" class="text-danger">Un utilisateur est déjà enregistrer avec cette e-mail.</p>
+                        <th:block th:unless="${userFormCheck.isMailExisting()}">
+                            <div th:if="${userFormCheck.isMailSize()}">
+                                <p th:if="${userFormCheck.isMailEmpty()}" class="text-danger">Le champ E-mail est obligatoire.</p>
+                                <p th:unless="${userFormCheck.isMailEmpty()}" class="text-danger">Attention! Le champ est trop long ( Entre 3 et 100 caractères).</p>
+                            </div>
+                        </th:block>
                     </div>
                 </div>
                 <div class="row form-group">
-
                     <label for="mail2" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Vérification Adresse e-mail:</label>
                     <div class="col-xs-7 col-sm-7 col-lg-7">
-                        <input id="mail2" type="email" class="form-control">
+                        <input id="mail2" name="mail2" type="email" class="form-control" placeholder="Retapez la même adresse e-mail">
+                        <th:block th:unless="${userFormCheck.isMailExisting()}" >
+                            <p th:if="${userFormCheck.isMailDifferent()}" class="text-danger">Les deux champs sont différents</p>
+                            <th:block th:unlex="${userFormCheck.isMailDifferent()}">
+                                <p th:if="${userFormCheck.isMailCheckEmpty()}" class="text-danger">Le champ E-mail est obligatoire. Il doit être égale à l'email précédent.</p>
+                            </th:block>
+                        </th:block>
                     </div>
                 </div>
                 <div class="row form-group">
-
                     <label for="phone" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Téléphone: </label>
                     <div class="col-xs-7 col-sm-7 col-lg-7">
                         <input id="phone" th:field="*{phone}" type="tel" class="form-control">
+                        <div th:if="${userFormCheck.isPhoneSize()}">
+                            <p th:if="${userFormCheck.isPhoneEmpty()}" class="text-danger">Le champ Téléphone est obligatoire.</p>
+                            <p th:unless="${userFormCheck.isPhoneEmpty()}" class="text-danger">Attention! Le champ doit être composer de 9-10 chiffres (ex : (0)612435687).</p>
+                        </div>
                     </div>
                 </div>
             </fieldset>
@@ -75,19 +106,34 @@
                 <div class="row form-group">
                     <label for="pseudo" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Pseudo: </label>
                     <div class="col-xs-7 col-sm-7 col-lg-7">
-                        <input id="pseudo" th:field="*{pseudo}" type="text" class="form-control">
+                        <input id="pseudo" th:field="*{pseudo}" type="text" class="form-control" placeholder="(de 3 à 100 caractères)">
+                        <p th:if="${userFormCheck.isPseudoExisting()}" class="text-danger">Un utilisateur est déjà enregistrer avec ce pseudo.</p>
+                        <th:block th:unless="${userFormCheck.isPseudoExisting()}">
+                            <div th:if="${userFormCheck.isPseudoSize()}">
+                                <p th:if="${userFormCheck.isPseudoEmpty()}" class="text-danger">Le champ pseudo est obligatoire.</p>
+                                <p th:unless="${userFormCheck.isPseudoEmpty()}" class="text-danger">Attention! Le champ est trop long ( Entre 3 et 100 caractères).</p>
+                            </div>
+                        </th:block>
                     </div>
                 </div>
                 <div class="row form-group">
                     <label for="password" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Mot de passe: </label>
                     <div class="col-xs-7 col-sm-7 col-lg-7">
-                        <input id="password" th:field="*{password}" type="password" class="form-control">
+                        <input id="password" th:field="*{password}" type="password" class="form-control" placeholder="(de 3 à 100 caractères)">
+                        <div th:if="${userFormCheck.isPasswordSize()}">
+                            <p th:if="${userFormCheck.isPasswordEmpty()}" class="text-danger">Le champ Mot de Passe est obligatoire.</p>
+                            <p th:unless="${userFormCheck.isPasswordEmpty()}" class="text-danger">Attention! Le champ est trop long ( Entre 3 et 100 caractères).</p>
+                        </div>
                     </div>
                 </div>
                 <div class="row form-group">
                     <label for="password2" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Vérification Mot de passe: </label>
                     <div class="col-xs-7 col-sm-7 col-lg-7">
-                        <input id="password2"  type="password" class="form-control">
+                        <input id="password2" name="password2" type="password" class="form-control" placeholder="Retapez le même mot de passe">
+                        <p th:if="${userFormCheck.isPasswordDifferent()}" class="text-danger">Les deux champs sont différents</p>
+                        <th:block th:unlex="${userFormCheck.isPasswordDifferent()}">
+                            <p th:if="${userFormCheck.isPasswordCheckEmpty()}" class="text-danger">Le champ Mot de Passe est obligatoire. Il doit être égale au mot de passe précédent.</p>
+                        </th:block>
                     </div>
                 </div>
             </fieldset>

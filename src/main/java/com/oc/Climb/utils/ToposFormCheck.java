@@ -13,6 +13,10 @@ public class ToposFormCheck {
     private boolean descriptionSize;
 
     public ToposFormCheck() {
+        init();
+    }
+
+    public void init(){
         this.titleSize = false;
         this.titleEmpty = false;
         this.autorSize = false;
@@ -20,7 +24,6 @@ public class ToposFormCheck {
         this.imageSize = false;
         this.descriptionSize = false;
     }
-
     public void describe(){
         System.out.println(
                 "        this.titleSize = "+ titleSize+ "\n" +
@@ -32,6 +35,7 @@ public class ToposFormCheck {
     }
 
     public Topos evaluate(Topos topos){
+        init();
         titleCheck(topos.getTitle());
         autorCheck(topos.getAutor());
         imageCheck(topos.getImage());

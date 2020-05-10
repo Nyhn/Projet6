@@ -5,10 +5,7 @@ import com.oc.Climb.enums.Level;
 import com.oc.Climb.enums.Role;
 import com.oc.Climb.enums.State;
 import com.oc.Climb.model.*;
-import com.oc.Climb.utils.EncryptPassword;
-import com.oc.Climb.utils.SearchSiteForm;
-import com.oc.Climb.utils.SearchToposForm;
-import com.oc.Climb.utils.ToposFormCheck;
+import com.oc.Climb.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,21 +24,18 @@ import java.util.List;
 public class AppController {
     @Autowired
     private UserService userService;
-
     @Autowired
     private ToposService toposService;
-
     @Autowired
     private SiteService siteService;
-
     @Autowired
     private CommentService commentService;
-
     @Autowired
     private BookingService bookingService;
-
     @Autowired
     private EncryptPassword encryptPassword;
+    @Autowired
+    private UserFormCheck userFormCheck;
     /* page général */
 
     @RequestMapping("/")
@@ -130,16 +124,24 @@ public class AppController {
         if(userCurrent.getRole() == Role.NOT_CONNECTED) {
             userCurrent = new User();
             model.addAttribute("userCurrent", userCurrent);
+            model.addAttribute("userFormCheck",userFormCheck);
             return "register";
         }
-        return "redirect:/";/* Compte -> a changer */
+        return "redirect:/account";
     }
 
 
     @RequestMapping(value = "/registerCheck", method = RequestMethod.POST)
     public String viewRegisterCheckPageAndSaveUser(Model model, HttpServletRequest request, @ModelAttribute("userCurrent") User userCurrent) {
         userCurrent.setRole(Role.USER);
+        userFormCheck.evaluate(userCurrent,request,userService.findByPseudo(userCurrent.getPseudo()),userService.findBymail(userCurrent.getMail()));
         userCurrent.setPassword(encryptPassword.encrypt(userCurrent));
+        if(!userFormCheck.validate()){
+            userFormCheck.describe();
+            model.addAttribute("userFormCheck",userFormCheck);
+            model.addAttribute("userCurrent", userCurrent);
+            return "register";
+        }
         userService.save(userCurrent);
         model.addAttribute("userCurrent", userCurrent);
         HttpSession session = request.getSession();
