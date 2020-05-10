@@ -32,12 +32,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="row form-group">
-                    <label for="birth" class="offset-lg-2 offset-sm-2 col-3 control-label">Date de naissance:</label>
-                    <div class="col-5">
-                        <p id="birth" th:text="'à gérer'"></p>
-                    </div>
-                </div>
             </fieldset>
             <fieldset>
                 <legend class="push border-bottom">Coordonnée</legend>
@@ -86,9 +80,11 @@
             <fieldset>
                 <legend class="push border-bottom">Niveau</legend>
                 <div class="row form-group">
-                    <label for="role" class="offset-lg-2 offset-sm-2 col-3 control-label">Type d'utilisateur:</label>
+                    <label class="offset-lg-2 offset-sm-2 col-3 control-label">Type d'utilisateur:</label>
                     <div class="col-5">
-                        <p id="role" th:text="${userCurrent.role}"></p>
+                        <p th:if="${userCurrent.role == userCurrent.role.USER}">Utilisateur</p>
+                        <p th:if="${userCurrent.role == userCurrent.role.MEMBER}">Membre officiel des amis de l'escalade</p>
+                        <p th:if="${userCurrent.role == userCurrent.role.ADMINISTRATOR}">Administrateur</p>
                     </div>
                 </div>
             </fieldset>

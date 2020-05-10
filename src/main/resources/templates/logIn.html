@@ -7,8 +7,6 @@
         <form method="post" action="#" th:action="@{/logInCheck}" th:object="${userCurrent}" class="col-lg form-horizontal well">
             <legend class="h4 border-bottom">Connexion</legend>
             <br>
-            <span class="align-content-center" th:text="${message}"/>
-            <br>
             <div>
                 <fieldset >
                     <div class="row form-group">
@@ -24,11 +22,9 @@
                         </div>
                     </div>
                     <div class="mid">
-                        <a href="init-password">J'ai oublié mon mot de passe</a>
+                        <p th:text="${message}" class="text-danger"></p>
                     </div>
                     <button class="btn btn-primary offset-9" type="submit">Se connecter</button>
-
-<!--                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>-->
                 </fieldset>
             </div>
         </form>
