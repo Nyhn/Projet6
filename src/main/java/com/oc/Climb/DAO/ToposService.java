@@ -24,7 +24,5 @@ public class ToposService {
 
     public List<Topos> findToposByAvalaible(){ return toposRepository.FindToposByAvailable();}
 
-    public List<Topos> findToposByUserBooking(User user){ return toposRepository.FindToposByUserBooking(user);}
-
     public List<Topos> findToposBySearch(String search){ return toposRepository.FindToposBySearch(search);}
 }

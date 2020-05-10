@@ -3,7 +3,7 @@ body {
   background-color: #ffffff;
 }
 .ban {
-	background-image: url("../img/ban1.jpg");
+	background-image: url("/img/ban1.jpg");
 
 	border: solid 2px #000000;
 	border-radius: 5px;
@@ -64,7 +64,7 @@ p{
 }
 .push-white {
 	text-align: right;
-	color : #ffffff;
+	color : #494949;
 	font-size : 15px;
 }
 

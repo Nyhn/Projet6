@@ -2,14 +2,9 @@
 <head th:include="include/head.html"></head>
 <body>
 <div class="container">
-    <div th:if="${id != '-1'}">
-        <header th:include="include/headerConnected.html"></header>
-    </div>
-    <div th:unless="${id != '-1'}">
-        <header th:include="include/header.html"></header>
-    </div>
+    <header th:include="include/header.html"></header>
     <div class="row">
-        <div class="col-lg-9  well">
+        <div class="col-lg  well">
             <form method="post"  th:action="@{/librarySearch}" th:object="${search}" class="col-lg-9 form-horizontal well">
                 <div class="col-12 form-group">
                     <input id="toposTitleOrAutor" type="text" th:field="*{titleOrAutor}" class="input-sm form-control" placeholder="Recherche">
@@ -18,15 +13,25 @@
             </form>
             <div class="container">
                 <section class="row">
-                    <figure th:each="topos : ${toposList}" class="col-pad col-xs-6 col-sm-6 col-md-4">
+                    <figure th:each="topos : ${toposList}" class="col-pad col-xs-6 col-sm-6 col-md-3">
                         <a th:href="@{'/climbingTopos/'+${topos.id}}" class="link-img"><img class="row img-thumbnail" th:src="${topos.image}" alt="climb">
                             <figcaption class="row"><span th:text="${topos.title}"/></figcaption></a>
                     </figure>
                 </section>
             </div>
-
+            <div th:if="${userCurrent.role != userCurrent.role.NOT_CONNECTED}" class="row">
+                <div class="col-12">
+                    <legend class="push-white border-bottom">Action</legend>
+                </div>
+                <nav class="navbar navbar-expand">
+                    <div class="container-fluid">
+                        <ul class="nav navbar-nav">
+                            <a class="link-ban" href="/addTopos">Ajouter un topo</a>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
         </div>
-        <nav th:include="include/highlight-site.html"  class="border-cadre col-lg-3"></nav>
     </div>
     <footer class="border-cadre row" th:include="include/footer.html"></footer>
 </div>

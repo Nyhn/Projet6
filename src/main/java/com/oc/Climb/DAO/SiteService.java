@@ -3,8 +3,6 @@ package com.oc.Climb.DAO;
 import com.oc.Climb.enums.Level;
 import com.oc.Climb.model.Site;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

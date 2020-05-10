@@ -2,22 +2,12 @@
 <head th:include="include/head.html"></head>
 <body>
 <div class="container">
-    <div th:if="${id != '-1'}">
-        <header th:include="include/headerConnected.html"></header>
-    </div>
-    <div th:unless="${id != '-1'}">
-        <header th:include="include/header.html"></header>
-    </div>
+    <header th:include="include/header.html"></header>
     <div class="row">
-        <form method="post" action="#" th:action="@{/registerCheck}" th:object="${user}" class="col-lg-9 form-horizontal well">
+        <form method="post" action="#" th:action="@{/registerCheck}" th:object="${user}" class="col-lg form-horizontal well">
             <legend class="h4 border-bottom">Formulaire de modification</legend>
             <br>
-            <div class="row form-group">
-                <label for="id" class="offset-lg-1 offset-sm-1 col-2 control-label">ID utilisateur:</label>
-                <div class="col-7">
-                    <input id="id" type="text" th:field="*{id}" class="form-control" readonly="readonly">
-                </div>
-            </div>
+            <input id="id" type="hidden" th:field="*{id}" class="form-control" readonly="readonly">
             <fieldset >
                 <legend class="push border-bottom">Identité</legend>
                 <div class="row form-group">
@@ -43,12 +33,6 @@
                             <input type="radio" th:field="*{sex}" value="false" id="woman">
                             Femme
                         </label>
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <label for="birth" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Date de naissance :</label>
-                    <div class="col-xs-7 col-sm-7 col-lg-7">
-                        <input id="birth" name="birth" type="Date" class="form-control">
                     </div>
                 </div>
             </fieldset>
@@ -108,20 +92,8 @@
                     </div>
                 </div>
             </fieldset>
-            <div class="row form-group">
-                <label for="level" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Niveau d'escalade:</label>
-                <div class="col-xs-7 col-sm-7 col-lg-7">
-                    <select id="level" name="level" class="form-control">
-                        <option>Débutant (4 à 5C)</option>
-                        <option>Intermédiaire (6A à 6C+)</option>
-                        <option>Avancé (7A à 7B)</option>
-                        <option>Expert (7B+ à 8A+)</option>
-                    </select>
-                </div>
-            </div>
             <button class="btn btn-primary offset-9" type="submit">Envoyer</button>
         </form>
-        <nav th:include="include/highlight-site.html"  class="border-cadre col-lg-3"></nav>
     </div>
     <footer class="border-cadre row" th:include="include/footer.html"></footer>
 </div>

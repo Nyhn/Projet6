@@ -91,6 +91,8 @@ public class Site {
         this.official = official;
     }
 
+    @Enumerated(EnumType.STRING)
+    @Column(length = 13)
     public Level getLevel() {
         return level;
     }
@@ -111,7 +113,6 @@ public class Site {
     public Set<Comment> getCommentCollection() {
         return commentCollection;
     }
-
     public void setCommentCollection(Set<Comment> commentCollection) {
         this.commentCollection = commentCollection;
     }

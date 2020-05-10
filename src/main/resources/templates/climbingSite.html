@@ -2,18 +2,13 @@
 <head th:include="include/head.html"></head>
 <body>
 <div class="container">
-    <div th:if="${id != '-1'}">
-        <header th:include="include/headerConnected.html"></header>
-    </div>
-    <div th:unless="${id != '-1'}">
-        <header th:include="include/header.html"></header>
-    </div>
+    <header th:include="include/header.html"></header>
     <div class="row">
-        <div class="col-lg-12 well">
+        <div class="col-lg well">
             <legend class="h4 border-bottom" th:text="${site.name}"></legend>
             <div class="row">
                 <div class="col-lg-6">
-                    <img class="img-site" th:src="${site.picture}" th:alt="${site.id}">
+                    <img class="img-site img-thumbnail" th:src="${site.picture}" th:alt="${site.id}">
                 </div>
                 <div class="col-lg-6">
                     <div class="container">
@@ -26,35 +21,26 @@
                                     <dt>Niveaux</dt>
                                     <dd th:text="${site.level}"></dd>
                                 </th:block>
-                                <th:block th:if="${site.orientation} != null">
+                                <th:block th:if="${site.orientation} != ''">
                                     <dt>Orientation</dt>
                                     <dd th:text="${site.orientation}"></dd>
                                 </th:block>
-                                <th:block th:if="${site.rocktype} != null">
-                                    <dt>Niveaux</dt>
+                                <th:block th:if="${site.rocktype} != ''">
+                                    <dt>Type de roche</dt>
                                     <dd th:text="${site.rocktype}"></dd>
                                 </th:block>
-                               <!-- <dt>Orientation</dt>
-                                <dd>Nord-Ouest.</dd>
-                                <dt>rocher</dt>
-                                <dd>Calcaire.</dd>
-                                <dt>Altitude maximale</dt>
-                                <dd>43 mètres.</dd>
-                                <dt>Dernière mise à jour</dt>
-                                <dd>12/12/2019</dd>
-                                <dt>Qualité de l’équipement</dt>
-                                <dd>Equipement excellent (Scellements galvanisés), espacé.</dd>
-                                <dt>Cotation globale</dt>
-                                <dd>[7a+/6c].</dd>
-                                <dt>Date d'ouverture</dt>
-                                <dd>14/04/2016</dd>-->
+                                <th:block th:if="${site.official} == true">
+                                    <br/>
+                                    <dd class="text-success"> Officialisé par les amis de l'escalade</dd>
+                                </th:block>
+
                             </dl>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-12 well" th:if="${site.presentation} != null">
                     <div class="container">
-                        <div id="content" class="row">
+                        <div class="row">
                             <legend class="push border-bottom">Caractéristique</legend>
                             <dl class="panel dl-horizontal dl-pres">
                                 <dt>Présentation</dt>
@@ -66,31 +52,31 @@
 
             </div>
             <ul class="list-unstyled">
-                <li th:each="comment:${commentList}" class="media">
-                    <img src="/img/userLogo.jpg" class="mr-3" alt="...">
-                    <div class="row">
+                <li th:each="comment:${commentList}" class="media row">
+                    <img src="/img/userLogo.jpg" class="rounded float-left col-2" alt="...">
+                    <div class="row col-10">
                         <div class="media-body col-10">
                             <h5 class="mt-0 mb-1" th:text="${comment.getUser().getName()}+' '+${comment.getUser().getFirstname()}"></h5>
                             <p th:text="${comment.getText()}"></p>
                         </div>
-                        <div class="col-2">
+                        <div th:if="${userCurrent.role == userCurrent.role.MEMBER or userCurrent.role == userCurrent.role.ADMINISTRATOR}" class="col-2">
                             <a th:href="@{'/editComment/'+${comment.id}}">Éditer</a><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             <a th:href="@{'/deleteComment/'+${comment.id}}">Supprimer</a>
                         </div>
                     </div>
                 </li>
-                <li class="media">
-                    <img src="/img/userLogo.jpg" class="mr-3" alt="...">
+                <li th:if="${userCurrent.role != userCurrent.role.NOT_CONNECTED}" class="media row">
+                    <img src="/img/userLogo.jpg" class="rounded float-left col-2" alt="...">
                     <div class="media-body">
                         <h5 class="mt-0 mb-1"> Ajouter un commentaire</h5>
-                        <form method="post" action="#" th:action="@{'/saveComment/'+${site.id}}" th:object="${comment}" class="col-lg-9 form-horizontal well">
+                        <form method="post" action="#" th:action="@{'/saveComment/'+${site.id}}" th:object="${comment}" class="media-body col-10 form-horizontal well">
                             <textarea id="title" type="text" th:field="*{text}" class="form-control"></textarea>
                             <button class="btn btn-primary" type="submit">Envoyer</button>
                         </form>
                     </div>
                 </li>
             </ul>
-            <div class="border-cadre row">
+            <div th:if="${userCurrent.role == userCurrent.role.MEMBER or userCurrent.role == userCurrent.role.ADMINISTRATOR }" class="border-cadre row">
                 <div class="col-12">
                     <legend class="push-white border-bottom">Action</legend>
                 </div>
@@ -107,6 +93,5 @@
     </div>
     <footer class="border-cadre row" th:include="include/footer.html"></footer>
 </div>
-
 </body>
 </html>
