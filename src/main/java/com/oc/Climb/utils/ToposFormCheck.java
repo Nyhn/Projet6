@@ -1,9 +1,10 @@
 package com.oc.Climb.utils;
 
 import com.oc.Climb.model.Topos;
+import org.springframework.stereotype.Service;
 
 import java.sql.Date;
-
+@Service
 public class ToposFormCheck {
     private boolean titleSize;
     private boolean titleEmpty;

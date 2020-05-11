@@ -21,11 +21,11 @@
                                     <dt>Niveaux</dt>
                                     <dd th:text="${site.level}"></dd>
                                 </th:block>
-                                <th:block th:if="${site.orientation} != ''">
+                                <th:block th:if="${site.orientation} != null">
                                     <dt>Orientation</dt>
                                     <dd th:text="${site.orientation}"></dd>
                                 </th:block>
-                                <th:block th:if="${site.rocktype} != ''">
+                                <th:block th:if="${site.rocktype} != null">
                                     <dt>Type de roche</dt>
                                     <dd th:text="${site.rocktype}"></dd>
                                 </th:block>

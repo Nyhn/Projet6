@@ -280,4 +280,13 @@ public class UserFormCheck {
     public boolean isPasswordCheckEmpty() {
         return passwordCheckEmpty;
     }
+
+    public void evaluateModif(User user) {
+        init();
+        nameCheck(user.getName());
+        firstnameCheck(user.getFirstname());
+        addressCheck(user.getAddress());
+        zipCheck(Integer.toString(user.getZip()));
+        phoneCheck(Integer.toString(user.getPhone()));
+    }
 }

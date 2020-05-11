@@ -36,75 +36,54 @@ public class AppController {
     private EncryptPassword encryptPassword;
     @Autowired
     private UserFormCheck userFormCheck;
-    /* page général */
+    @Autowired
+    private ToposFormCheck toposFormCheck;
+    @Autowired
+    private SiteFormCheck siteFormCheck;
 
     @RequestMapping("/")
     public String viewHomepagePage(Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        User userCurrent = (User) session.getAttribute("userCurrent");
-        if(userCurrent == null) {
-            userCurrent = new User();
-        }
+        User userCurrent = getUserSession(request);
         model.addAttribute("userCurrent", userCurrent);
-        List<Site> siteList = siteService.listAll();
-        model.addAttribute("highlightSite", siteList);
         return "homepage";
     }
-    /* page qui manipule topos */
 
     @RequestMapping(value ="/addTopos", method = RequestMethod.GET)
     public String viewAddToposPage(Model model, HttpServletRequest request) {
         User userCurrent = getUserSession(request);
-        if(userCurrent == null) {
-            userCurrent = new User();
-            model.addAttribute("userCurrent", userCurrent);
+        model.addAttribute("userCurrent", userCurrent);
+        if(userCurrent.getRole() == Role.NOT_CONNECTED)
             return "redirect:/logIn";
-        }
         Topos topos = new Topos();
-        ToposFormCheck toposFormCheck = new ToposFormCheck();
         model.addAttribute("toposFormCheck",toposFormCheck);
         model.addAttribute("topos", topos);
-        model.addAttribute("userCurrent", userCurrent);
         return "addTopos";
     }
 
     @RequestMapping(value = "/toposCheck", method = RequestMethod.POST)
     public String saveToposAndViewToposCheckPage(HttpServletRequest request, @ModelAttribute("topos") Topos topos, Model model) {
-
         User userCurrent = getUserSession(request);
-        if(userCurrent == null) {
-            userCurrent = new User();
-            model.addAttribute("userCurrent", userCurrent);
-            return "redirect:/logIn";
-        }
-        else{
-            ToposFormCheck toposFormCheck = new ToposFormCheck();
-            topos = toposFormCheck.evaluate(topos);
-            if (!toposFormCheck.validate()) {
-                model.addAttribute("toposFormCheck",toposFormCheck);
-                model.addAttribute("topos", topos);
-                model.addAttribute("userCurrent", userCurrent);
-                return "addTopos";
-            }
-            topos.setDate(toposFormCheck.dateCheck(topos.getDate()));
-            topos.setUser(userCurrent);
-            toposService.save(topos);
-            List<Topos> toposList = toposService.findToposByUser(userCurrent);
-            model.addAttribute("listTopos", toposList);
-        }
         model.addAttribute("userCurrent", userCurrent);
+        if(userCurrent.getRole() == Role.NOT_CONNECTED)
+            return "redirect:/logIn";
+        toposFormCheck.evaluate(topos);
+        if (!toposFormCheck.validate()) {
+            model.addAttribute("toposFormCheck",toposFormCheck);
+            model.addAttribute("topos", topos);
+            return "addTopos";
+        }
+        topos.setDate(toposFormCheck.dateCheck(topos.getDate()));
+        topos.setUser(userCurrent);
+        toposService.save(topos);
         return "redirect:/library";
     }
 
     @RequestMapping(value = "/editTopos/{id}")
     public ModelAndView showEditToposPage(HttpServletRequest request,@PathVariable(name = "id") Long id) {
-        HttpSession session = request.getSession();
-        User userCurrent = (User) session.getAttribute("userCurrent");
-        if(userCurrent == null) {
-            userCurrent = new User();
-        }
+        User userCurrent = getUserSession(request);
         ModelAndView modelAndView = new ModelAndView("editTopos");
         Topos topos = toposService.get(id);
+        modelAndView.addObject("toposFormCheck", toposFormCheck);
         modelAndView.addObject("topos", topos);
         modelAndView.addObject("userCurrent",userCurrent);
         return modelAndView;
@@ -116,37 +95,47 @@ public class AppController {
         return "redirect:/account";
     }
 
-    /* page qui manipule User */
-
     @RequestMapping("/register")
     public String viewRegisterPage(Model model, HttpServletRequest request) {
         User userCurrent = getUserSession(request);
+        model.addAttribute("userCurrent", userCurrent);
         if(userCurrent.getRole() == Role.NOT_CONNECTED) {
-            userCurrent = new User();
-            model.addAttribute("userCurrent", userCurrent);
             model.addAttribute("userFormCheck",userFormCheck);
             return "register";
         }
         return "redirect:/account";
     }
 
-
     @RequestMapping(value = "/registerCheck", method = RequestMethod.POST)
     public String viewRegisterCheckPageAndSaveUser(Model model, HttpServletRequest request, @ModelAttribute("userCurrent") User userCurrent) {
         userCurrent.setRole(Role.USER);
         userFormCheck.evaluate(userCurrent,request,userService.findByPseudo(userCurrent.getPseudo()),userService.findBymail(userCurrent.getMail()));
         userCurrent.setPassword(encryptPassword.encrypt(userCurrent));
+        model.addAttribute("userCurrent", userCurrent);
         if(!userFormCheck.validate()){
-            userFormCheck.describe();
             model.addAttribute("userFormCheck",userFormCheck);
-            model.addAttribute("userCurrent", userCurrent);
             return "register";
         }
         userService.save(userCurrent);
-        model.addAttribute("userCurrent", userCurrent);
         HttpSession session = request.getSession();
+        session.removeAttribute("userCurrent");
         session.setAttribute("userCurrent", userCurrent);
         return "redirect:/";
+    }
+
+    @RequestMapping(value = "/userCheck", method = RequestMethod.POST)
+    public String verifUserAndSave(Model model,HttpServletRequest request, @ModelAttribute("userCurrent") User userCurrent) {
+        userFormCheck.evaluateModif(userCurrent);
+        model.addAttribute("userCurrent", userCurrent);
+        System.out.println(userCurrent.getPassword());
+        System.out.println(userCurrent.getRole());
+        if(userFormCheck.validate()){
+            userService.save(userCurrent);
+        }
+        HttpSession session = request.getSession();
+        session.removeAttribute("userCurrent");
+        session.setAttribute("userCurrent", userCurrent);
+        return "redirect:/account";
     }
 
     @RequestMapping(value = "/editUser/{id}")
@@ -154,6 +143,7 @@ public class AppController {
         ModelAndView modelAndView = new ModelAndView("editUser");
         User userCurrent = getUserSession(request);
         modelAndView.addObject("userCurrent", userCurrent);
+        modelAndView.addObject("userFormCheck",userFormCheck);
         User user = userService.get(id);
         modelAndView.addObject("user", user);
         return modelAndView;
@@ -162,20 +152,10 @@ public class AppController {
     @RequestMapping("/logIn")
     public String viewLogInPage(Model model, HttpServletRequest request) {
         User userCurrent = getUserSession(request);
-        if (userCurrent.getRole() == Role.NOT_CONNECTED) {
-            model.addAttribute("userCurrent", userCurrent);
-            return "logIn";
-        }
         model.addAttribute("userCurrent", userCurrent);
+        if (userCurrent.getRole() == Role.NOT_CONNECTED)
+            return "logIn";
         return "redirect:/";
-    }
-
-    public User getUserSession(HttpServletRequest request){
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("userCurrent");
-        if(user == null)
-            user = new User();
-        return user;
     }
 
     @RequestMapping(value = "/logInCheck", method = RequestMethod.POST)
@@ -201,20 +181,17 @@ public class AppController {
     }
 
     @RequestMapping("/logOut")
-    public String logoutAndViewHomepage(HttpServletResponse response, HttpServletRequest request) {
+    public String logoutAndViewHomepage( HttpServletRequest request) {
         HttpSession session = request.getSession();
         session.removeAttribute("userCurrent");
         return "redirect:/";
     }
-    /* page à gérer BDD */
-
 
     @RequestMapping("/catalog")
     public String viewCatalogPage(HttpServletRequest request,Model model) {
         User userCurrent = getUserSession(request);
         model.addAttribute("userCurrent", userCurrent);
         SearchSiteForm searchSiteForm = new SearchSiteForm();
-        searchSiteForm.init();
         List<Site> siteList = siteService.listAll();
         model.addAttribute("siteList", siteList);
         model.addAttribute("search", searchSiteForm);
@@ -224,21 +201,12 @@ public class AppController {
     @RequestMapping("/catalogSearch")
     public String viewCatalogSearchPage(HttpServletRequest request,Model model,@ModelAttribute("search") SearchSiteForm searchSiteForm) {
         User userCurrent = getUserSession(request);
-        System.out.println(searchSiteForm.getNbSectors());
-        System.out.println(searchSiteForm.getLevel());
-        System.out.println(searchSiteForm.getOfficial());
-        System.out.println(searchSiteForm.getPlace());
         List<Site> siteList;
         if(searchSiteForm.getPlace() != ""){
-            System.out.println(searchSiteForm.getPlace()+"ok");
             if(searchSiteForm.getOfficial()){
-                System.out.println(searchSiteForm.getOfficial()+"ok");
                 if(searchSiteForm.getNbSectors()!= -1){
-                    System.out.println(searchSiteForm.getNbSectors()+"ok");
                     if(searchSiteForm.getNbSectors()>=8) {
-                        System.out.println(searchSiteForm.getNbSectors()+">8");
                         if (searchSiteForm.getLevel() != Level.NOT_SELECTED) {
-                            System.out.println(searchSiteForm.getLevel()+"diff");
                             siteList = siteService.findSiteBySearchPlaceAndSectorSuppAndLevelAndOfficial(searchSiteForm.getPlace(), searchSiteForm.getLevel());
                         }else
                             siteList = siteService.findSiteBySearchPlaceAndSectorSuppAndOfficial(searchSiteForm.getPlace());
@@ -338,8 +306,11 @@ public class AppController {
         User userCurrent = getUserSession(request);
         model.addAttribute("userCurrent", userCurrent);
         SearchToposForm searchToposForm = new SearchToposForm();
-        searchToposForm.setTitleOrAutor("");
-        List<Topos> toposList = toposService.findToposByAvalaible();
+        List<Topos> toposList;
+        if(userCurrent.getRole() == Role.NOT_CONNECTED)
+            toposList = toposService.findToposByAvalaible();
+        else
+            toposList = toposService.getAllToposWithOutToposUserAndAvailable(userCurrent);
         model.addAttribute("toposList", toposList);
         model.addAttribute("search", searchToposForm);
         return "library";
@@ -349,13 +320,13 @@ public class AppController {
     public String viewLibrarySearchPage(HttpServletRequest request,Model model,@ModelAttribute("searchForm") SearchToposForm searchToposForm) {
         User userCurrent = getUserSession(request);
         model.addAttribute("userCurrent", userCurrent);
-        List<Topos> toposListWithSearch = toposService.findToposBySearch((String) searchToposForm.getTitleOrAutor());
+        List<Topos> toposListWithSearch = toposService.findToposBySearch(searchToposForm.getTitleOrAutor());
         if(searchToposForm.getTitleOrAutor() != "")
             model.addAttribute("toposList", toposListWithSearch);
         else
             return "redirect:/library";
         model.addAttribute("search", searchToposForm);
-        searchToposForm.setTitleOrAutor("");
+        searchToposForm.init();
         return "library";
     }
 
@@ -363,55 +334,57 @@ public class AppController {
     @RequestMapping("/addSite")
     public String viewAddSitePage(Model model, HttpServletRequest request) {
         User userCurrent = getUserSession(request);
-        if(userCurrent.getRole() == Role.NOT_CONNECTED) {
-            model.addAttribute("userCurrent", userCurrent);
-            return "redirect:/logIn";
-        }
         model.addAttribute("userCurrent", userCurrent);
+        if(userCurrent.getRole() == Role.NOT_CONNECTED)
+            return "redirect:/logIn";
         Site site = new Site();
         model.addAttribute("site", site);
+        model.addAttribute("siteFormCheck",siteFormCheck);
         return "addSite";
     }
 
     @RequestMapping(value = "/siteCheck", method = RequestMethod.POST)
     public String saveSiteAndViewSiteCheckPage(HttpServletRequest request, @ModelAttribute("site") Site site, Model model) {
         User userCurrent = getUserSession(request);
-        if (userCurrent.getRole() != Role.NOT_CONNECTED) {
-            siteService.save(site);
+        if(userCurrent.getRole() == Role.NOT_CONNECTED)
+            return "redirect:/LogIn";
+        siteFormCheck.evaluate(site);
+        model.addAttribute("userCurrent",userCurrent);
+        if(!siteFormCheck.validate()){
+            model.addAttribute("siteFormCheck",siteFormCheck);
+            model.addAttribute("site",site);
+            return "addSite";
         }
-        model.addAttribute("site", site);
-        List<Site> siteList = siteService.listAll();
-        model.addAttribute("siteList", siteList);
-        model.addAttribute("userCurrent", userCurrent);
-        return "siteCheck";
+        siteService.save(site);
+        return "redirect:/catalog";
     }
 
     @RequestMapping("/account")
     public String viewAccountPage(Model model, HttpServletRequest request) {
         User userCurrent = getUserSession(request);
-        if(userCurrent.getRole() == Role.NOT_CONNECTED) {
-            model.addAttribute("userCurrent", userCurrent);
-            return "redirect:/logIn";
-        }
         model.addAttribute("userCurrent", userCurrent);
+        if(userCurrent.getRole() == Role.NOT_CONNECTED)
+            return "redirect:/logIn";
         List<Topos> toposList = toposService.findToposByUser(userCurrent);
         List<Booking> bookingList = bookingService.findByUserBookingRequired(userCurrent);
         List<Booking> historical = bookingService.findByUserBooking(userCurrent);
+        List<Booking> acceptList = bookingService.getCoordonateUserBookingByBookingAccepted(userCurrent);
+        List<Booking> requestAcceptList = bookingService.getCoordonateUserToposByBookingAccepted(userCurrent);
         model.addAttribute("toposList", toposList);
         model.addAttribute("bookingList", bookingList);
         model.addAttribute("historical", historical);
+        model.addAttribute("acceptList",acceptList);
+        model.addAttribute("requestAcceptList",requestAcceptList);
         return "account";
     }
 
     @RequestMapping("/user")
     public String viewUserPage(Model model, HttpServletRequest request) {
         User userCurrent = getUserSession(request);
-        if(userCurrent.getRole() == Role.NOT_CONNECTED) {
-            model.addAttribute("userCurrent", userCurrent);
-            return "redirect:/logIn";
-        }
-        List<User> userList = userService.listAll();
         model.addAttribute("userCurrent", userCurrent);
+        if(userCurrent.getRole() == Role.NOT_CONNECTED)
+            return "redirect:/logIn";
+        List<User> userList = userService.listAll();
         model.addAttribute("userList",userList);
         return "user";
     }
@@ -435,9 +408,7 @@ public class AppController {
         modelAndView.addObject("userCurrent",userCurrent);
         List<Comment> commentList = commentService.getBySite(siteSelect);
         modelAndView.addObject("commentList", commentList);
-        Comment comment = new Comment();
-        modelAndView.addObject("comment", comment);
-
+        modelAndView.addObject("comment", new Comment());
         return modelAndView;
     }
 
@@ -462,7 +433,7 @@ public class AppController {
     }
 
     @RequestMapping(value = "/modifComment/{id}", method = RequestMethod.POST)
-    public String modifComment(@ModelAttribute("comment") Comment comment, @PathVariable(name = "id") Long id) {
+    public String modifComment(@ModelAttribute("comment") Comment comment) {
         commentService.save(comment);
         Long idSite = comment.getSite().getId();
         return "redirect:/climbingSite/" + idSite;
@@ -484,7 +455,7 @@ public class AppController {
     }
 
     @RequestMapping(value = "/booking/{id}", method = RequestMethod.GET)
-    public String booking(Model model,HttpServletRequest request,@PathVariable(name = "id") Long id) {
+    public String createBooking(Model model,HttpServletRequest request,@PathVariable(name = "id") Long id) {
         User userCurrent = getUserSession(request);
         model.addAttribute("userCurrent", userCurrent);
         Topos topos = toposService.get(id);
@@ -494,7 +465,6 @@ public class AppController {
         booking.setUser(userCurrent);
         booking.setDate(new Date());
         bookingService.save(booking);
-
         return "redirect:/climbingTopos/{id}";
     }
 
@@ -529,5 +499,13 @@ public class AppController {
         booking.setState(State.REFUSE);
         bookingService.save(booking);
         return "redirect:/account";
+    }
+
+    public User getUserSession(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("userCurrent");
+        if(user == null)
+            user = new User();
+        return user;
     }
 }

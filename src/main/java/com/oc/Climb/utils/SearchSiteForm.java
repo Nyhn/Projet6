@@ -8,6 +8,10 @@ public class SearchSiteForm {
     private int nbSectors;
     private Level level;
 
+    public SearchSiteForm() {
+        init();
+    }
+
     public void init() {
         this.place = "";
         this.official = false;
@@ -18,33 +22,13 @@ public class SearchSiteForm {
     public String getPlace() {
         return place;
     }
-
-    public void setPlace(String place) {
-        this.place = place;
-    }
-
     public Boolean getOfficial() {
         return official;
     }
-
-    public void setOfficial(Boolean official) {
-        this.official = official;
-    }
-
     public int getNbSectors() {
         return nbSectors;
     }
-
-    public void setNbSectors(int nbSectors) {
-        this.nbSectors = nbSectors;
-    }
-
     public Level getLevel() {
         return level;
     }
-
-    public void setLevel(Level level) {
-        this.level = level;
-    }
-
 }

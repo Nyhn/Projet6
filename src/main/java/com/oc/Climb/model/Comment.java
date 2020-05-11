@@ -8,7 +8,6 @@ import javax.persistence.*;
 public class Comment {
     private Long id;
     private String text;
-    /* private DateTimeFormat date; */
     private User user;
     private Site site;
 

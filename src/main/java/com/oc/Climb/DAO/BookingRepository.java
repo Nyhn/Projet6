@@ -19,4 +19,10 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
 
     @Query("SELECT booking FROM Booking booking, Topos topos WHERE booking.topos = topos and topos.user = :user")
     List<Booking> findByUserBooking(@Param("user") User user);
+
+    @Query("SELECT booking FROM Booking booking, Topos topos WHERE booking.topos = topos and topos.user = :user and booking.state = 'ACCEPTED'")
+    List<Booking> getCoordonateUserToposByBookingAccepted(@Param("user") User user);
+
+    @Query("SELECT booking FROM Booking booking, Topos topos WHERE booking.topos = topos and booking.user = :user and booking.state = 'ACCEPTED'")
+    List<Booking> getCoordonateUserBookingByBookingAccepted(@Param("user") User user);
 }
