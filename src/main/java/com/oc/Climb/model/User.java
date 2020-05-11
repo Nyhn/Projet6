@@ -2,10 +2,30 @@ package com.oc.Climb.model;
 import com.oc.Climb.enums.Role;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.util.Set;
 
-
+/**
+ * Model : user
+ * User is an user of climbing site
+ * <p>
+ *     User is characterized by
+ *     <ul>
+ *         <li>id is a primary key</li>
+ *         <li>pseudo is an username</li>
+ *         <li>password is a string of characters that allows access </li>
+ *         <li>name is the last name of user</li>
+ *         <li>firstname is the first name of user</li>
+ *         <li>sex is the gender of the user</li>
+ *         <li>address is the address of user</li>
+ *         <li>Zip is the zip code of user</li>
+ *         <li>mail is the e-mail of user</li>
+ *         <li>phone is the number of phone of user</li>
+ *         <li>Role is an enum of role</li>
+ *         <li>toposCollection is a set of topos</li>
+ *         <li>CommentCollection is a set of comment</li>
+ *     </ul>
+ * </p>
+ */
 @Entity
 public class User{
 
@@ -19,14 +39,50 @@ public class User{
     private int zip;
     private String mail;
     private int phone;
+    /**
+     * Enum Role : NOT_CONNECTED,ADMINISTRATOR,USER,MEMBER
+     */
     private Role role;
+    private Set<Topos> toposCollection;
+    private Set<Comment> commentCollection;
+
+    public User() {
+        init();
+    }
+
+    private void init() {
+        this.pseudo = "";
+        this.password = "";
+        this.name = "";
+        this.firstname = "";
+        this.sex = false;
+        this.address = "";
+        this.zip = -1;
+        this.mail = "";
+        this.phone = -1;
+        this.role = Role.NOT_CONNECTED;
+    }
+
+    public User(String pseudo, String password, String name, String firstname, boolean sex, String address, int zip, int phone, String mail) {
+        this.pseudo = pseudo;
+        this.password = password;
+        this.name = name;
+        this.firstname = firstname;
+        this.sex = sex;
+        this.address = address;
+        this.zip = zip;
+        this.mail = mail;
+        this.phone = phone;
+        this.role = Role.USER;
+    }
+
+    /* ----- GETTER AND SETTER ----- */
 
     @Enumerated(EnumType.STRING)
     @Column(length = 13)
     public Role getRole() {
         return role;
     }
-
     public void setRole(Role role) {
         if(role.equals(Role.ADMINISTRATOR))
             this.role = Role.ADMINISTRATOR;
@@ -35,10 +91,6 @@ public class User{
         if(role.equals(Role.USER))
             this.role = Role.USER;
     }
-
-    private Set<Topos> toposCollection;
-
-    private Set<Comment> commentCollection;
 
     @OneToMany(mappedBy ="user")
     public Set<Booking> getBookingsCollection() {
@@ -65,39 +117,6 @@ public class User{
     public void setToposCollection(Set<Topos> toposCollection) {
         this.toposCollection = toposCollection;
     }
-
-    public User() {
-        init();
-    }
-
-    private void init() {
-        this.pseudo = "";
-        this.password = "";
-        this.name = "";
-        this.firstname = "";
-        this.sex = false;
-        this.address = "";
-        this.zip = -1;
-        this.mail = "";
-        this.phone = -1;
-        this.role = Role.NOT_CONNECTED;
-    }
-
-
-    public User(String pseudo, String password, String name, String firstname, boolean sex, String address, int zip, int phone, String mail) {
-        this.pseudo = pseudo;
-        this.password = password;
-        this.name = name;
-        this.firstname = firstname;
-        this.sex = sex;
-        this.address = address;
-        this.zip = zip;
-        this.mail = mail;
-        this.phone = phone;
-        this.role = Role.USER;
-    }
-
-    /* ----- GETTER AND SETTER ----- */
 
     public String getPseudo() {
         return pseudo;

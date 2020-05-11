@@ -1,10 +1,29 @@
 package com.oc.Climb.model;
 
 import com.oc.Climb.enums.Level;
-
 import javax.persistence.*;
 import java.util.Set;
 
+/**
+ * Model : site
+ * Site is a spot of climb
+ * <p>
+ *     Site is characterized by
+ *     <ul>
+ *         <li>id is a primary key</li>
+ *         <li>name is a name of site</li>
+ *         <li>place is a location of site</li>
+ *         <li>level is a level of site</li>
+ *         <li>Orientation is a site exposure</li>
+ *         <li>Rocktype is the rock that constitutes the climbing site</li>
+ *         <li>Picture is a image link</li>
+ *         <li>presentation is a description of site</li>
+ *         <li>official is a boolean Official ny the friend of climbing</li>
+ *         <li>commentCollection is a set of comment associate to site</li>
+ *         <li>sector represents the number of sector</li>
+ *     </ul>
+ * </p>
+ */
 @Entity
 public class Site {
 
@@ -24,6 +43,7 @@ public class Site {
     public Site() {
     }
 
+    /* GETTERS AND SETTERS */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
