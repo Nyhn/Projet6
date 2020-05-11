@@ -5,32 +5,54 @@
     <header th:include="include/header.html"></header>
     <div class="row">
         <form method="post" action="#" th:action="@{/toposCheck}" th:object="${topos}" class="col-lg form-horizontal well">
-            <legend class="h4 border-bottom">Ajouter un topos</legend>
+            <legend class="h4 border-bottom">Modifier un topos</legend>
             <br>
             <fieldset >
                 <legend class="push border-bottom">Caractéristiques</legend>
                 <div class="row form-group">
                     <label for="id" class="offset-lg-1 offset-sm-1 col-2 control-label">ID topos:</label>
                     <div class="col-7">
-                        <input id="id" type="text" th:field="*{id}" class="form-control" readonly="readonly">
+                        <input id="id" type="hidden" th:field="*{id}" class="form-control" readonly="readonly">
                     </div>
                 </div>
                 <div class="row form-group">
-                    <label for="title" class="offset-lg-1 offset-sm-1 col-2 control-label">Titre:</label>
+                    <label for="title" class="offset-lg-1 offset-sm-1 col-2 control-label">Titre<span class="text-primary">*</span>:</label>
                     <div class="col-7">
-                        <input id="title" type="text" th:field="*{title}" class="form-control">
+                        <input id="title" type="text" th:field="*{title}" class="form-control" placeholder="(de 3 à 500 caractères)">
+                        <div th:if="${toposFormCheck.isTitleSize()}">
+                            <p th:if="${toposFormCheck.isTitleEmpty()}" class="text-danger">Le champ titre est obligatoire.</p>
+                            <p th:unless="${toposFormCheck.isTitleEmpty()}" class="text-danger">Attention ! Le champ doit être compris entre 3 à 500 caractères.</p>
+                        </div>
                     </div>
                 </div>
                 <div class="row form-group">
-                    <label for="autor" class="offset-lg-1 offset-sm-1 col-2 control-label">Auteur:</label>
+                    <label for="autor" class="offset-lg-1 offset-sm-1 col-2 control-label">Auteur<span class="text-primary">*</span>:</label>
                     <div class="col-7">
-                        <input id="autor" th:field="*{autor}" type="text" class="form-control">
+                        <input id="autor" th:field="*{autor}" type="text" class="form-control" placeholder="(de 3 à 100 caractères)">
+                        <div th:if="${toposFormCheck.isAutorSize()}">
+                            <p th:if="${toposFormCheck.isAutorEmpty()}" class="text-danger">Le champ Auteur est obligatoire.</p>
+                            <p th:unless="${toposFormCheck.isAutorEmpty()}" class="text-danger">Attention ! Le champ doit être compris entre 3 à 100 caractères.</p>
+                        </div>
                     </div>
                 </div>
                 <div class="row form-group">
                     <label for="image" class="offset-lg-1 offset-sm-1 col-2 control-label">Lien de l'image:</label>
                     <div class="col-7">
-                        <input id="image" th:field="*{image}" type="url" class="form-control">
+                        <input id="image" th:field="*{image}" type="url" class="form-control" placeholder="(max 5000 caractères)">
+                        <p th:if="${toposFormCheck.isImageSize()}" class="text-danger">Le lien de l'image est trop grand.</p>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="date" class="offset-lg-1 offset-sm-1 col-2 control-label">Date:</label>
+                    <div class="col-7">
+                        <input id="date" th:field="*{date}" type="date" class="form-control">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="description" class="offset-lg-1 offset-sm-1 col-2 control-label">Description:</label>
+                    <div class="col-7">
+                        <textarea id="description" th:field="*{description}" class="form-control">Écrire une description ( max 5000 caractère )</textarea>
+                        <p th:if="${toposFormCheck.isDescriptionSize()}" class="text-danger">Nombre de caractère dépassé.</p>
                     </div>
                 </div>
             </fieldset>
@@ -51,6 +73,7 @@
                 </div>
                 <button class="btn btn-primary offset-9" type="submit">Envoyer</button>
             </fieldset>
+            <p class="text-primary">Champ obligatoire *</p>
         </form>
     </div>
     <footer class="border-cadre row" th:include="include/footer.html"></footer>

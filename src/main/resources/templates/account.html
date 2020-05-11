@@ -150,28 +150,73 @@
                         </tbody>
                     </table>
                 </th:block>
-        <th:block th:if="${bookingList.size()} > 0 ">
-            <legend class="h4 border-bottom">Historique de réservations</legend>
-            <br>
-            <table class="offset-lg-1 col-lg-11 table table-striped table-dark">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Titre</th>
-                    <th scope="col">locataire</th>
-                    <th scope="col">État</th>
-                </tr>
-                </thead>
-                <tbody th:with="count = 0">
-                <tr th:each="booking:${historical}" >
-                    <th th:with="count = ${count}+1"  scope="row"><span th:text="${count}"/></th>
-                    <td th:text="${booking.topos.title}"></td>
-                    <td th:text="${booking.user.name} +' '+ ${booking.user.firstname}"></td>
-                    <td th:text="${booking.state}"></td>
-                </tr>
-                </tbody>
-            </table>
+            <th:block th:if="${historical.size()} > 0 ">
+                <legend class="h4 border-bottom">Historique de réservations</legend>
+                <br>
+                <table class="offset-lg-1 col-lg-11 table table-striped table-dark">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Titre</th>
+                        <th scope="col">locataire</th>
+                        <th scope="col">État</th>
+                    </tr>
+                    </thead>
+                    <tbody th:with="count = 0">
+                    <tr th:each="booking:${historical}" >
+                        <th th:with="count = ${count}+1"  scope="row"><span th:text="${count}"/></th>
+                        <td th:text="${booking.topos.title}"></td>
+                        <td th:text="${booking.user.name} +' '+ ${booking.user.firstname}"></td>
+                        <td th:text="${booking.state}"></td>
+                    </tr>
+                    </tbody>
+                </table>
             </th:block>
+                <th:block th:if="${acceptList.size()} > 0 ">
+                    <legend class="h4 border-bottom">Coordonnés des topos réservés</legend>
+                    <br>
+                    <table class="offset-lg-1 col-lg-11 table table-striped table-dark">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Titre</th>
+                            <th scope="col">Loueur</th>
+                            <th scope="col">E-mail</th>
+                        </tr>
+                        </thead>
+                        <tbody th:with="count = 0">
+                        <tr th:each="booking:${acceptList}" >
+                            <th th:with="count = ${count}+1"  scope="row"><span th:text="${count}"/></th>
+                            <td th:text="${booking.topos.title}"></td>
+                            <td th:text="${booking.topos.user.name} +' '+ ${booking.topos.user.firstname}"></td>
+                            <td th:text="${booking.topos.user.mail}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </th:block>
+                <th:block th:if="${requestAcceptList.size()} > 0 ">
+                    <legend class="h4 border-bottom">Coordonné des demandeurs</legend>
+                    <br>
+                    <table class="offset-lg-1 col-lg-11 table table-striped table-dark">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Titre</th>
+                            <th scope="col">Demandeur</th>
+                            <th scope="col">E-mail</th>
+                        </tr>
+                        </thead>
+                        <tbody th:with="count = 0">
+                        <tr th:each="booking:${requestAcceptList}" >
+                            <th th:with="count = ${count}+1"  scope="row"><span th:text="${count}"/></th>
+                            <td th:text="${booking.topos.title}"></td>
+                            <td th:text="${booking.user.name} +' '+ ${booking.user.firstname}"></td>
+                            <td th:text="${booking.user.mail}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </th:block>
+
         </div>
     </div>
     <footer class="border-cadre row" th:include="include/footer.html"></footer>

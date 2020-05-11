@@ -10,36 +10,66 @@
             <fieldset >
                 <legend class="push border-bottom">INFO1</legend>
                 <div class="row form-group">
-                    <label for="name" class="offset-lg-1 offset-sm-1 col-2 control-label">Nom:</label>
+                    <label for="name" class="offset-lg-1 offset-sm-1 col-2 control-label">Nom<span class="text-primary">*</span>:</label>
                     <div class="col-7">
                         <input id="name" type="text" th:field="*{name}" class="form-control">
+                        <div th:if="${siteFormCheck.isNameSize()}">
+                            <p th:if="${siteFormCheck.isNameEmpty()}" class="text-danger">Le champ Nom est obligatoire.</p>
+                            <p th:unless="${siteFormCheck.isNameEmpty()}" class="text-danger">Attention ! Le champ doit être compris entre 3 à 100 caractères.</p>
+                        </div>
                     </div>
                 </div>
                 <div class="row form-group">
-                    <label for="place" class="offset-lg-1 offset-sm-1 col-2 control-label">Lieu:</label>
+                    <label for="place" class="offset-lg-1 offset-sm-1 col-2 control-label">Lieu<span class="text-primary">*</span>:</label>
                     <div class="col-7">
                         <input id="place"  type="text" th:field="*{place}"class="form-control">
+                        <div th:if="${siteFormCheck.isPlaceSize()}">
+                            <p th:if="${siteFormCheck.isPlaceEmpty()}" class="text-danger">Le champ Lieu est obligatoire.</p>
+                            <p th:unless="${siteFormCheck.isPlaceEmpty()}" class="text-danger">Attention ! Le champ doit être compris entre 3 à 100 caractères.</p>
+                        </div>
                     </div>
                 </div>
             </fieldset>
             <fieldset>
                 <legend class="push border-bottom">INFO2</legend>
                 <div class="row form-group">
+                    <label for="level" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Niveau: </label>
+                    <div class="col-xs-7 col-sm-7 col-lg-7">
+                        <select class="form-control" id="level" th:field="*{level}">
+                            <option th:value="${T(com.oc.Climb.enums.Level).NOT_SELECTED}" selected>Choisir un niveau</option>
+                            <option th:value="${T(com.oc.Climb.enums.Level).DEBUTANT}">5a à 5c+</option>
+                            <option th:value="${T(com.oc.Climb.enums.Level).INTERMEDIAIRE}">6a à 6c+</option>
+                            <option th:value="${T(com.oc.Climb.enums.Level).AVANCE}">7a à 7c+</option>
+                            <option th:value="${T(com.oc.Climb.enums.Level).EXPERT}">8a à +</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="sector" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Nombre de secteur<span class="text-primary">*</span>: </label>
+                    <div class="col-xs-7 col-sm-7 col-lg-7">
+                        <input id="sector" th:field="*{sector}" type="number" class="form-control">
+                        <p th:if="${siteFormCheck.isSectorNegative()}" class="text-danger">Le champ Secteur doit être positif.</p>
+                    </div>
+                </div>
+                <div class="row form-group">
                     <label for="orientation" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Orientation: </label>
                     <div class="col-xs-7 col-sm-7 col-lg-7">
                         <input id="orientation" th:field="*{orientation}" type="text" class="form-control">
+                        <p th:if="${siteFormCheck.isOrientationSize()}" class="text-danger">Attention ! Le champ doit être inférieur à 45 caractères.</p>
                     </div>
                 </div>
                 <div class="row form-group">
                     <label for="rocktype" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Roche: </label>
                     <div class="col-xs-7 col-sm-7 col-lg-7">
                         <input id="rocktype" th:field="*{rocktype}" type="text" class="form-control">
+                        <p th:if="${siteFormCheck.isRockSize()}" class="text-danger">Attention ! Le champ doit être inférieur à 45 caractères.</p>
                     </div>
                 </div>
                 <div class="row form-group">
                     <label for="picture" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Url de la photo: </label>
                     <div class="col-xs-7 col-sm-7 col-lg-7">
                         <input id="picture" th:field="*{picture}" type="url" class="form-control">
+                        <p th:if="${siteFormCheck.isImageSize()}" class="text-danger">Attention ! Le champ doit être inférieur à 5000 caractères.</p>
                     </div>
                 </div>
                 <div class="row form-group">
@@ -47,10 +77,12 @@
                     <label for="presentation" class="offset-lg-1 offset-sm-1 col-xs-2 col-sm-2 col-lg-2 control-label">Présentation :</label>
                     <div class="col-xs-7 col-sm-7 col-lg-7">
                         <textarea id="presentation" th:field="*{presentation}" class="form-control"> présentation du lieu d'escalade , forme, accessibilté ...</textarea>
+                        <p th:if="${siteFormCheck.isPresentationSize()}" class="text-danger">Attention ! Le champ doit être inférieur à 3000 caractères.</p>
                     </div>
                 </div>
             </fieldset>
-                        <button class="btn btn-primary offset-9" type="submit">Envoyer</button>
+            <button class="btn btn-primary offset-9" type="submit">Envoyer</button>
+            <p class="text-primary">Champ obligatoire *</p>
         </form>
     </div>
     <footer class="border-cadre row" th:include="include/footer.html"></footer>

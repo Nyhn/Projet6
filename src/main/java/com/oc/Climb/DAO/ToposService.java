@@ -25,4 +25,6 @@ public class ToposService {
     public List<Topos> findToposByAvalaible(){ return toposRepository.FindToposByAvailable();}
 
     public List<Topos> findToposBySearch(String search){ return toposRepository.FindToposBySearch(search);}
+
+    public List<Topos> getAllToposWithOutToposUserAndAvailable(User user){return toposRepository.getAllToposWithOutToposUserAndAvailable(user);}
 }

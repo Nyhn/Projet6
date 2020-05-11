@@ -1,9 +1,10 @@
 package com.oc.Climb.utils;
 
 import com.oc.Climb.model.Topos;
+import org.springframework.stereotype.Service;
 
 import java.sql.Date;
-
+@Service
 public class ToposFormCheck {
     private boolean titleSize;
     private boolean titleEmpty;
@@ -13,6 +14,10 @@ public class ToposFormCheck {
     private boolean descriptionSize;
 
     public ToposFormCheck() {
+        init();
+    }
+
+    public void init(){
         this.titleSize = false;
         this.titleEmpty = false;
         this.autorSize = false;
@@ -20,7 +25,6 @@ public class ToposFormCheck {
         this.imageSize = false;
         this.descriptionSize = false;
     }
-
     public void describe(){
         System.out.println(
                 "        this.titleSize = "+ titleSize+ "\n" +
@@ -32,6 +36,7 @@ public class ToposFormCheck {
     }
 
     public Topos evaluate(Topos topos){
+        init();
         titleCheck(topos.getTitle());
         autorCheck(topos.getAutor());
         imageCheck(topos.getImage());

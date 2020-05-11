@@ -3,11 +3,14 @@ package com.oc.Climb.utils;
 public class SearchToposForm {
     private String titleOrAutor;
 
-    public String getTitleOrAutor() {
-        return titleOrAutor;
+    public SearchToposForm() {
+        init();
     }
 
-    public void setTitleOrAutor(String titleOrAutor) {
-        this.titleOrAutor = titleOrAutor;
+    public void init() {
+        this.titleOrAutor = "";
+    }
+    public String getTitleOrAutor() {
+        return titleOrAutor;
     }
 }

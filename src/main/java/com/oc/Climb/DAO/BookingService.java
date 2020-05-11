@@ -28,4 +28,9 @@ public class BookingService {
     public List<Booking> findByUserBooking(User user){return bookingRepository.findByUserBooking(user);}
 
     public List<Booking> findByUserBookingRequired(User user){return bookingRepository.findByUserBookingRequired(user);}
+
+    public List<Booking> getCoordonateUserToposByBookingAccepted(User user){return bookingRepository.getCoordonateUserToposByBookingAccepted(user);}
+
+    public List<Booking> getCoordonateUserBookingByBookingAccepted(User user){return bookingRepository.getCoordonateUserBookingByBookingAccepted(user);}
+
 }

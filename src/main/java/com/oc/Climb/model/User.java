@@ -67,6 +67,10 @@ public class User{
     }
 
     public User() {
+        init();
+    }
+
+    private void init() {
         this.pseudo = "";
         this.password = "";
         this.name = "";
