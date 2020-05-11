@@ -7,27 +7,70 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Implementation of the site interface
+ */
 @Service
 public class SiteService {
+    /**
+     * Instance of SiteRepository
+     */
+    @Autowired
     private SiteRepository siteRepository;
 
-    @Autowired
-    public SiteService(SiteRepository siteRepository){ this.siteRepository = siteRepository; }
-
+    /**
+     * Function which list all site
+     * @return list<site> list of site
+     */
     public List<Site> listAll(){ return siteRepository.findAll();}
 
+    /**
+     * Function which save a row of site
+     * @param site site added
+     */
     public void save(Site site){ siteRepository.save(site);}
 
+    /**
+     * Get site by id
+     * @param id id of site
+     * @return site by id
+     */
     public Site get(Long id){ return siteRepository.findById(id).get();}
 
+    /**
+     * Delete a site by id
+     * @param id
+     */
     public void delete(Long id){ siteRepository.deleteById(id);}
 
+    /**
+     * Get a list of site by place
+     * @param place place of site
+     * @return List of site by place
+     */
     public List<Site> findSiteBySearchPlace(String place){return siteRepository.findSiteBySearchPlace(place);}
 
+    /**
+     * get a list of site by place and level
+     * @param place place of site
+     * @param level level of site
+     * @return List of site by place and level
+     */
     public List<Site> findSiteBySearchPlaceAndLevel(String place,Level level){return siteRepository.findSiteBySearchPlaceAndLevel(place,level);}
 
+    /**
+     * Get a list of site by place and sector
+     * @param place place of site
+     * @param sector number of sector of site
+     * @return list of site by place and sector
+     */
     public List<Site> findSiteBySearchPlaceAndSector(String place,int sector){return siteRepository.findSiteBySearchPlaceAndSector(place,sector);}
 
+    /**
+     * Get a list of site by place and with number of sector >= 8
+     * @param place place of site
+     * @return list of site by place and with number of sector >= 8
+     */
     public List<Site> findSiteBySearchPlaceAndSectorSupp(String place){return siteRepository.findSiteBySearchPlaceAndSectorSupp(place);}
 
     public List<Site> findSiteBySearchPlaceAndSectorAndLevel(String place,int sector,Level level){return siteRepository.findSiteBySearchPlaceAndSectorAndLevel(place,sector,level);}
