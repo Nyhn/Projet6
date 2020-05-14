@@ -304,7 +304,7 @@ public class UserFormCheck {
     }
 
     /* GETTERS AND SETTERS */
-    
+
     public boolean isNameSize() {
         return nameSize;
     }

@@ -393,24 +393,16 @@ public class AppController {
     }
 
     @RequestMapping(value = "/saveComment/{id}", method = RequestMethod.POST)
-    public String saveComment(HttpServletRequest request,@Valid @ModelAttribute("comment") Comment comment, @PathVariable(name = "id") Long id, BindingResult bindingResult) {
-        System.out.println(comment);
-        if (bindingResult.hasErrors())
-            System.out.println("---->"+bindingResult.toString());
-        else
-            System.out.println("//////");
-//        if(result.hasErrors()){
-//            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!");
-//            return "redirect:/account";
-//        }
-//        else{
-//            System.out.println("------------------");
-//            comment.setId(null);
-//            comment.setSite(siteService.get(id));
-//            User userCurrent = getUserSession(request);
-//            comment.setUser(userCurrent);
-//            //commentService.save(comment);
-//        }
+    public String saveComment(HttpServletRequest request,@ModelAttribute("comment") Comment comment, @PathVariable(name = "id") Long id,Model model) {
+        if(comment.getText().length()>2000)
+            return "redirect:/climbingSite/"+id;
+        else{
+            comment.setId(null);
+            comment.setSite(siteService.get(id));
+            User userCurrent = getUserSession(request);
+            comment.setUser(userCurrent);
+            commentService.save(comment);
+        }
         return "redirect:/climbingSite/{id}";
     }
 
