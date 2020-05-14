@@ -70,7 +70,8 @@
                     <div class="media-body">
                         <h5 class="mt-0 mb-1"> Ajouter un commentaire</h5>
                         <form method="post" action="#" th:action="@{'/saveComment/'+${site.id}}" th:object="${comment}" class="media-body col-10 form-horizontal well">
-                            <textarea id="title" type="text" th:field="*{text}" class="form-control"></textarea>
+                            <textarea id="text" type="text" th:field="*{text}" class="form-control"></textarea>
+                            <span th:if="${#fields.hasErrors('text')}" th:errors="*{text}" class="text-danger">Full text error</span>
                             <button class="btn btn-primary" type="submit">Envoyer</button>
                         </form>
                     </div>

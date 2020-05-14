@@ -9,6 +9,8 @@ import com.oc.Climb.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import javax.servlet.http.*;
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 
@@ -390,12 +393,24 @@ public class AppController {
     }
 
     @RequestMapping(value = "/saveComment/{id}", method = RequestMethod.POST)
-    public String saveComment(HttpServletRequest request, @ModelAttribute("comment") Comment comment, @PathVariable(name = "id") Long id) {
-        comment.setId(null);
-        comment.setSite(siteService.get(id));
-        User userCurrent = getUserSession(request);
-        comment.setUser(userCurrent);
-        commentService.save(comment);
+    public String saveComment(HttpServletRequest request,@Valid @ModelAttribute("comment") Comment comment, @PathVariable(name = "id") Long id, BindingResult bindingResult) {
+        System.out.println(comment);
+        if (bindingResult.hasErrors())
+            System.out.println("---->"+bindingResult.toString());
+        else
+            System.out.println("//////");
+//        if(result.hasErrors()){
+//            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!");
+//            return "redirect:/account";
+//        }
+//        else{
+//            System.out.println("------------------");
+//            comment.setId(null);
+//            comment.setSite(siteService.get(id));
+//            User userCurrent = getUserSession(request);
+//            comment.setUser(userCurrent);
+//            //commentService.save(comment);
+//        }
         return "redirect:/climbingSite/{id}";
     }
 

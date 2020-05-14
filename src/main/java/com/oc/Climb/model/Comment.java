@@ -1,6 +1,7 @@
 package com.oc.Climb.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 /**
  * Model : comment
@@ -35,6 +36,7 @@ public class Comment {
         this.id = id;
     }
 
+    @Size(min=3, max = 2000)
     public String getText() {
         return text;
     }
