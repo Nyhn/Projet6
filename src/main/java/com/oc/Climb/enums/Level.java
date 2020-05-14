@@ -1,5 +1,8 @@
 package com.oc.Climb.enums;
 
+/**
+ * All level use for site
+ */
 public enum Level {
         DEBUTANT,
         INTERMEDIAIRE,

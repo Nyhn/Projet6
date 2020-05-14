@@ -1,9 +1,21 @@
 package com.oc.Climb.model;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
+/**
+ * Model : comment
+ * Comment is a message of user on a site of climb
+ * <p>
+ *     Comment is characterized by
+ *     <ul>
+ *         <li>id is a primary key</li>
+ *         <li>Text is a message of comment</li>
+ *         <li>User is a user connected who write a note</li>
+ *         <li>a site where on post a comment</li>
+ *     </ul>
+ * </p>
+ */
 @Entity
 public class Comment {
     private Long id;
@@ -13,7 +25,7 @@ public class Comment {
 
     public Comment() {
     }
-
+/* GETTERS AND SETTERS */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

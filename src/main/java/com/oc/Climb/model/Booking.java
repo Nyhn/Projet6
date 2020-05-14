@@ -5,17 +5,37 @@ import com.oc.Climb.enums.State;
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ * Model : booking
+ * Booking is a reservation of topos
+ * <p>
+ *     Booking is characterized by
+ *     <ul>
+ *         <li>id is a primary key</li>
+ *         <li>user is an user who books a topos</li>
+ *         <li>topos is an topos who is reserved</li>
+ *         <li>state is a state of booking</li>
+ *         <li>date is request date of booking </li>
+ *     </ul>
+ * </p>
+ */
 @Entity
 public class Booking {
+
     private Long id;
     private User user;
     private Topos topos;
+    /**
+     * Enum State : REQUIRED, ACCEPTED, REFUSE
+     */
     private State state;
     private Date date;
 
     public Booking() {
-
     }
+
+    /* GETTERS AND SETTERS */
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

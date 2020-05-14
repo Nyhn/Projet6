@@ -1,13 +1,27 @@
 package com.oc.Climb.model;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.util.Set;
 
+/**
+ * Model : topos
+ * Topos is a book of climbing
+ * <p>
+ *     Topos is characterized by
+ *     <ul>
+ *         <li>id is a primary key</li>
+ *         <li>title is a title of topos</li>
+ *         <li>autor is a writer of topos</li>
+ *         <li>available is a boolean who represents if a topos is available</li>
+ *         <li>image is a picture link</li>
+ *         <li>bookingsCollection is a set of bookigs linked to topos</li>
+ *         <li>User is the owner of topos</li>
+ *         <li>date is the date of publication</li>
+ *         <li>description is a summary of the topos</li>
+ *     </ul>
+ * </p>
+ */
 @Entity
 public class Topos {
     private Long id;
@@ -25,6 +39,7 @@ public class Topos {
         this.date =  Date.valueOf("0001-01-01");
     }
 
+    /* GETTERS AND SETTERS */
     @OneToMany(mappedBy ="topos")
     public Set<Booking> getBookingsCollection() {
         return bookingsCollection;
