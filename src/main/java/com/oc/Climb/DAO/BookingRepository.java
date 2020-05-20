@@ -1,8 +1,6 @@
 package com.oc.Climb.DAO;
 
 import com.oc.Climb.model.Booking;
-import com.oc.Climb.model.Comment;
-import com.oc.Climb.model.Topos;
 import com.oc.Climb.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

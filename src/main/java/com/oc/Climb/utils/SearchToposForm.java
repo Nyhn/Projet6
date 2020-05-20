@@ -16,12 +16,15 @@ public class SearchToposForm {
     public SearchToposForm() {
         init();
     }
-
-    /* ----- GETTER AND SETTER ----- */
     public void init() {
         this.titleOrAutor = "";
     }
+    /* ----- GETTER AND SETTER ----- */
+
     public String getTitleOrAutor() {
         return titleOrAutor;
+    }
+    public void setTitleOrAutor(String titleOrAutor) {
+        this.titleOrAutor = titleOrAutor;
     }
 }
