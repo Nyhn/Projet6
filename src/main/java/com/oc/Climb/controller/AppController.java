@@ -9,8 +9,6 @@ import com.oc.Climb.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import javax.servlet.http.*;
-import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 
@@ -130,8 +127,6 @@ public class AppController {
     public String verifUserAndSave(Model model,HttpServletRequest request, @ModelAttribute("userCurrent") User userCurrent) {
         userFormCheck.evaluateModif(userCurrent);
         model.addAttribute("userCurrent", userCurrent);
-        System.out.println(userCurrent.getPassword());
-        System.out.println(userCurrent.getRole());
         if(userFormCheck.validate()){
             userService.save(userCurrent);
         }

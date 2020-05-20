@@ -211,4 +211,5 @@ public class SiteFormCheck {
     public boolean isSectorNegative() {
         return sectorNegative;
     }
+
 }

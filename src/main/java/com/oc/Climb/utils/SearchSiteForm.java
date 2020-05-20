@@ -38,6 +38,16 @@ public class SearchSiteForm {
         this.level = Level.NOT_SELECTED;
     }
 
+    @Override
+    public String toString() {
+        return "SearchSiteForm{" +
+                "place='" + place + '\'' +
+                ", official=" + official +
+                ", nbSectors=" + nbSectors +
+                ", level=" + level +
+                '}';
+    }
+
     /* ----- GETTER AND SETTER ----- */
     public String getPlace() {
         return place;
@@ -50,5 +60,18 @@ public class SearchSiteForm {
     }
     public Level getLevel() {
         return level;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+    public void setOfficial(Boolean official) {
+        this.official = official;
+    }
+    public void setNbSectors(int nbSectors) {
+        this.nbSectors = nbSectors;
+    }
+    public void setLevel(Level level) {
+        this.level = level;
     }
 }
