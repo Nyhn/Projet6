@@ -25,6 +25,10 @@
                                     <dt>Orientation</dt>
                                     <dd th:text="${site.orientation}"></dd>
                                 </th:block>
+                                <th:block th:if="${site.sector} != null">
+                                    <dt>Nombre de secteur</dt>
+                                    <dd th:text="${site.sector}"></dd>
+                                </th:block>
                                 <th:block th:if="${site.rocktype} != null">
                                     <dt>Type de roche</dt>
                                     <dd th:text="${site.rocktype}"></dd>
@@ -83,8 +87,8 @@
                 <nav class="navbar navbar-expand">
                     <div class="container-fluid">
                         <ul class="nav navbar-nav">
-                            <li><a th:href="@{'/putOfficial/'+${site.id}}">Taguer ce site</a></li>
-                            <li ><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><a th:href="@{'/unputOfficial/'+${site.id}}">Détaguer ce site</a></li>
+                            <li th:if="${site.official == false}"><a th:href="@{'/putOfficial/'+${site.id}}">Taguer ce site</a></li>
+                            <li th:if="${site.official == true}"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><a th:href="@{'/unputOfficial/'+${site.id}}">Détaguer ce site</a></li>
                         </ul>
                     </div>
                 </nav>
