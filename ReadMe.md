@@ -1,3 +1,10 @@
+0- Prérequis
+
+    * jdk-13.0.2
+    * apache maven 3.6.3
+    * apache tomcat 9.0.30
+    * mysql 8.0.19
+
 1- Récupérer le projet sur GitHub adresse : https://github.com/Nyhn/Projet6.git
 
     *https://github.com/Nyhn/Projet6.git
@@ -21,3 +28,4 @@
 4- Allez à l'adresse
 
     *http://localhost:8080/
+    

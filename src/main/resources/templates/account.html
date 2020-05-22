@@ -141,7 +141,9 @@
                             <th th:with="count = ${count}+1"  scope="row"><span th:text="${count}"/></th>
                             <td th:text="${booking.topos.title}"></td>
                             <td th:text="${booking.user.name} +' '+ ${booking.user.firstname}"></td>
-                            <td th:text="${booking.state}"></td>
+                            <td th:if="${booking.state == booking.state.ACCEPTED}">Accepter</td>
+                            <td th:if="${booking.state == booking.state.REFUSE}">Refusée</td>
+                            <td th:if="${booking.state == booking.state.REQUIRED}">En attente</td>
                             <td>
                                 <a th:href="@{'/acceptBooking/'+${booking.id}}">Accepter</a><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                                 <a th:href="@{'/refusedBooking/'+${booking.id}}">Refuser</a>
@@ -167,7 +169,9 @@
                         <th th:with="count = ${count}+1"  scope="row"><span th:text="${count}"/></th>
                         <td th:text="${booking.topos.title}"></td>
                         <td th:text="${booking.user.name} +' '+ ${booking.user.firstname}"></td>
-                        <td th:text="${booking.state}"></td>
+                        <td th:if="${booking.state == booking.state.ACCEPTED}">Accepter</td>
+                        <td th:if="${booking.state == booking.state.REFUSE}">Refusée</td>
+                        <td th:if="${booking.state == booking.state.REQUIRED}">En attente</td>
                     </tr>
                     </tbody>
                 </table>
